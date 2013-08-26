@@ -3,9 +3,9 @@
 angular.module('store', ['store.controllers', 'store.services']).
     config(function ($routeProvider) {
         $routeProvider.
-            when('/home', {templateUrl: 'public/partials/home.html', controller: 'HomeAbout'}).
+            when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController'}).
             when('/about', {templateUrl: 'public/partials/about.html', controller: 'AboutController'}).
-            otherwise({redirectTo: '/home'});
+            otherwise({redirectTo: '/store'});
     });
 
 //
