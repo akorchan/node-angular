@@ -1,7 +1,7 @@
 var express = require('express');
 var http = require('http');
+var item = require('./server/item');
 //var auth = require('./server/routes/auth');
-//var book = require('./server/routes/book');
 
 var app = express();
 app.configure(function () {
@@ -24,8 +24,8 @@ app.get('/', /*auth.checkAuth,*/ function (req, res) {
 
 //app.post('/user/login', auth.login);
 //app.post('/user/logout', auth.logout);
-//app.get('/book', book.findAll);
-//app.post('/book', book.add);
+app.get('/item', item.findAll);
+app.post('/item', item.add);
 
 http.createServer(app).listen(3000);
 console.log("server listening on port 3000");
