@@ -4,7 +4,10 @@ angular.module('store', ['store.controllers', 'store.services']).
     config(function ($routeProvider) {
         $routeProvider.
             when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController'}).
-            when('/about', {templateUrl: 'public/partials/about.html', controller: 'AboutController'}).
+            when('/about', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController'}).
+            when('/howto', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController'}).
+            when('/delivery', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController'}).
+            when('/contactus', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController'}).
             otherwise({redirectTo: '/store'});
     });
 

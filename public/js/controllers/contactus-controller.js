@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AboutController',function ($scope, $http, $timeout, $location) {
+    .controller('ContactUsController', function ($scope, $http, $timeout, $location) {
 //        if (ncAccount.isLoggedIn()) { $location.path('/map'); }
 //        $scope.login = ncAccount.tomtomLogin;
         $scope.title = 'About Page';
