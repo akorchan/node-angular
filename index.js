@@ -8,7 +8,7 @@ app.configure(function () {
     app.use(express.cookieParser());
     app.use(express.bodyParser());
     app.use(express.errorHandler());
-    app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
+    app.use(express.favicon(__dirname + '/public/images/logo.png'));
     app.use('/public', express.static(__dirname + '/public'));
 });
 
