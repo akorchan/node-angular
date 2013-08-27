@@ -1,22 +1,27 @@
 <div class="container">
     <div class="row">
-        <h1>Bootstrap 3 Lightbox using Modal</h1>
+        <h1>Ассортимент магазина</h1>
 
         <div class="row">
-            <div ng-repeat="item in items" class="col-lg-3 col-sm-4 col-6"><a href="#" title="Image 1"><img
-                    src="//placehold.it/600x350"
-                    class="thumbnail img-responsive"></a>
+            <div ng-repeat="item in items" class="col-lg-3 col-sm-4 col-6">
+
+                <a href="#/items/{{ item._id }}" title="{{item.name}}">
+                    <img src="public/items-images/{{ item.image }}" class="thumbnail img-responsive">
+                </a>
 
                 <div class="caption">
-                    <h3>{{item.title}}</h3>
+                    <h3 class="item-name">{{item.name}}</h3>
 
-                    <p>{{item.author}}</p>
+                    <!--<p>Арт.{{item.code}}</p>-->
 
-                    <p><a class="btn btn-block" href="http://www.bootstraptor.com/">Learn more</a></p>
+                    <!--<p>{{item.description}}</p>-->
+
+                    <p>Цена: {{item.price}}</p>
+
+                    <p><a class="btn btn-block" href="#/items/{{ item._id }}">Подробнее</a></p>
                 </div>
             </div>
 
         </div>
     </div>
 </div>
-

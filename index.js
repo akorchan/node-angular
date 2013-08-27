@@ -24,8 +24,11 @@ app.get('/', /*auth.checkAuth,*/ function (req, res) {
 
 //app.post('/user/login', auth.login);
 //app.post('/user/logout', auth.logout);
-app.get('/item', item.findAll);
-app.post('/item', item.add);
+app.get('/items', item.getAllItems);
+app.get('/items/:id', item.findItemById);
+app.post('/items', item.addItem);
+app.put('/items/:id', item.updateItem);
+app.delete('/items/:id', item.deleteItem);
 
 http.createServer(app).listen(3000);
 console.log("server listening on port 3000");
