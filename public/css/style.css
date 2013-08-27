@@ -5,7 +5,7 @@ body {
 }
 
 .main-content {
-    padding-top: 50px;
+    padding-top: 80px;
 }
 
 /* Wrapper for page content to push down footer */
@@ -31,4 +31,8 @@ body {
 
 .thumbnail {
     margin-bottom: 6px;
+}
+
+.item-name {
+    height: 150px;
 }
