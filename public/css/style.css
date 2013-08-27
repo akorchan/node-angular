@@ -1,3 +1,9 @@
+@font-face {
+    font-family: "GoudyOldStyleMTBoldItalic";
+    src: url("/core_content/fonts/goubi___-webfont.ttf") format("truetype"), font-style: normal;
+    font-weight: normal;
+}
+
 html,
 body {
     height: 100%;
@@ -19,10 +25,9 @@ body {
     padding: 0 0 60px;
 
     background-image: url('/public/images/background.jpg');
-    /*background-repeat:no-repeat;*/
     background-attachment: fixed;
     background-position: center;
-    background-size: 100%
+    background-size: 100%;
 }
 
 /* Set the fixed height of the footer here */
@@ -37,8 +42,22 @@ body {
 
 .thumbnail {
     margin-bottom: 6px;
+    margin: 0px auto;
 }
 
 .item-name {
-    height: 150px;
+    height: 130px;
+    font-family: GoudyOldStyleMTBoldItalic, Georgia, sans-serif, Arial;
+}
+
+.item-box {
+    padding: 20px;
+}
+
+.item-box:hover {
+    border: 1px solid rgba(137, 137, 137, 0.54);
+    border-radius: 10px;
+    box-shadow: -2px -2px 2px rgba(137, 137, 137, 0.54);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
