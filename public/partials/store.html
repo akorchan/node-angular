@@ -3,7 +3,7 @@
         <h1>Ассортимент магазина</h1>
 
         <div class="row">
-            <div ng-repeat="item in items" class="col-lg-3 col-sm-4 col-6">
+            <div ng-repeat="item in items" class="col-lg-3 col-sm-4 col-6 text-center item-box">
 
                 <a href="#/items/{{ item._id }}" title="{{item.name}}">
                     <img src="public/items-images/{{ item.image }}" class="thumbnail img-responsive">
@@ -20,6 +20,7 @@
 
                     <p><a class="btn btn-block" href="#/items/{{ item._id }}">Подробнее</a></p>
                 </div>
+
             </div>
 
         </div>
