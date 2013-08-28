@@ -1,6 +1,7 @@
 @font-face {
     font-family: "GoudyOldStyleMTBoldItalic";
-    src: url("/core_content/fonts/goubi___-webfont.ttf") format("truetype"), font-style: normal;
+    src: url("/core_content/fonts/goubi___-webfont.ttf") format("truetype");
+    font-style: normal;
     font-weight: normal;
 }
 
@@ -18,7 +19,6 @@ body {
 #wrap {
     min-height: 100%;
     height: auto !important;
-    height: 100%;
     /* Negative indent footer by its height */
     margin: 0 auto -40px;
     /* Pad bottom by footer height */
@@ -41,13 +41,12 @@ body {
 }
 
 .thumbnail {
-    margin-bottom: 6px;
     margin: 0px auto;
 }
 
 .item-name {
     height: 130px;
-    font-family: GoudyOldStyleMTBoldItalic, Georgia, sans-serif, Arial;
+    font-family: GoudyOldStyleMTBoldItalic, Georgia, sans-serif, Arial, serif;
 }
 
 .item-box {
