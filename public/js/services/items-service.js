@@ -20,8 +20,13 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Find item by id.
      * @param callback
      */
-    var findItemById = function (callback) {
-
+    var findItemById = function (itemId, callback) {
+        $http({method: "GET", data: {/*id: itemId*/}, url: "/items/" + itemId}).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
     };
 
 

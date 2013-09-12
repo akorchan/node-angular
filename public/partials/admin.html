@@ -1,3 +1,31 @@
 <div>
-    <h2>Admin</h2>
+    <h2>Консоль администрирования</h2>
+</div>
+
+<div class="panel panel-default">
+    <!--<div class="panel-heading"><h4>Ассортимент товара</h4></div>-->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Название</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in items">
+            <td><img src="public/items-images/{{ item.image }}" style="width: 100px;"/></td>
+            <td style="vertical-align: middle;">{{ item.name }}</td>
+            <td style="vertical-align: middle;">{{ item.price }} грн.</td>
+            <td style="vertical-align: middle;">
+                <a href="#/store/{{ item._id }}">
+                    <button type="button" class="btn btn-warning admin-button">Изменить</button>
+                </a>
+                <a href="#/store/{{ item._id }}">
+                    <button type="button" class="btn btn-danger admin-button">Удалить</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
