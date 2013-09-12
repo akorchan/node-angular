@@ -5,9 +5,9 @@
         <div class="row">
             <div ng-repeat="item in items" class="col-lg-3 col-sm-4 col-6 item-box">
                 <div class="text-center">
-                    <a href="#/items/{{ item._id }}" title="{{item.name}}">
-                        <img src="public/items-images/{{ item.image }}" class="thumbnail img-responsive">
-                    </a>
+                    <!--<a href="#/store/{{ item._id }}" title="{{item.name}}">-->
+                    <img src="public/items-images/{{ item.image }}" class="thumbnail img-responsive">
+                    <!--</a>-->
 
                     <div class="caption">
                         <h3 class="item-name">{{item.name}}</h3>
@@ -16,9 +16,11 @@
 
                         <!--<p>{{item.description}}</p>-->
 
-                        <p>Цена: {{item.price}}</p>
+                        <p>Цена: {{item.price}} грн.</p>
 
-                        <p><a class="btn btn-block" href="#/items/{{ item._id }}">Подробнее</a></p>
+                        <a href="#/store/{{ item._id }}">
+                            <button type="button" class="btn btn-default btn-lg">Подробнее</button>
+                        </a>
                     </div>
                 </div>
             </div>
