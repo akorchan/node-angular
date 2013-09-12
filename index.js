@@ -30,5 +30,6 @@ app.post('/items', item.addItem);
 app.put('/items/:id', item.updateItem);
 app.delete('/items/:id', item.deleteItem);
 
-http.createServer(app).listen(3000);
-console.log("server listening on port 3000");
+var port = process.env.PORT || 5000;
+http.createServer(app).listen(port);
+console.log("server listening on port " + port);
