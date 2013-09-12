@@ -4,10 +4,11 @@ angular.module('store', ['store.controllers', 'store.services']).
     config(function ($routeProvider) {
         $routeProvider.
             when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController', pageKey: 'STORE'}).
-            when('/about', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'ABOUT'}).
-            when('/howto', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'HOWTO'}).
-            when('/delivery', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'DELIVERY'}).
+            when('/about', {templateUrl: 'public/partials/about.html', controller: 'AboutController', pageKey: 'ABOUT'}).
+            when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
+            when('/delivery', {templateUrl: 'public/partials/delivery.html', controller: 'DeliveryController', pageKey: 'DELIVERY'}).
             when('/contactus', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'CONTACTUS'}).
+            when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             otherwise({redirectTo: '/store'});
     }).run(function ($rootScope, $http, $route) {
         $rootScope.$on("$routeChangeSuccess",
