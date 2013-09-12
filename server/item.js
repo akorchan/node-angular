@@ -11,6 +11,9 @@ var server = new Server('ds043368.mongolab.com', 43368, {auto_reconnect: true});
 db = new Db(databaseName, server);
 
 db.open(function (err, db) {
+    db.authenticate('buona', 'buona', function (err, result) {
+        db.close();
+    });
     if (!err) {
         console.log("Connected to '" + databaseName + "' database");
         db.collection(collectionName, {strict: true}, function (err, collection) {
