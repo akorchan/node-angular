@@ -7,27 +7,27 @@
 <body ng-app="store">
 <div id="wrap">
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <img class="pull-left" src="/public/images/logo.png"/>
-                <span class="navbar-brand">Buona Italia</span>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active pagekey_STORE"><a href="#/store" class="btn">Главная</a></li>
-                    <li class="pagekey_ABOUT"><a href="#/about" class="btn">О нас</a></li>
-                    <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Как заказать</a></li>
-                    <li class="pagekey_DELIVERY"><a href="#/delivery" class="btn">Доставка и оплата</a></li>
-                    <li class="pagekey_CONTACTUS"><a href="#/contactus" class="btn">Контакты</a></li>
-                    <li class="pagekey_ADMIN"><a href="#/admin" class="btn">Администрирование</a></li>
-                </ul>
-            </div>
+        <!--<div class="container">-->
+        <div class="navbar-header">
+            <img class="pull-left" src="/public/images/logo.png"/>
+            <span class="navbar-brand">Buona Italia</span>
+            <button type="btn btn-navbar" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active pagekey_STORE"><a href="#/store" class="btn">Главная</a></li>
+                <li class="pagekey_ABOUT"><a href="#/about" class="btn">О нас</a></li>
+                <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Как заказать</a></li>
+                <li class="pagekey_DELIVERY"><a href="#/delivery" class="btn">Доставка и оплата</a></li>
+                <li class="pagekey_CONTACTUS"><a href="#/contactus" class="btn">Контакты</a></li>
+                <li class="pagekey_ADMIN"><a href="#/admin" class="btn">Администрирование</a></li>
+            </ul>
+        </div>
+        <!--</div>-->
     </div>
     <div class="container main-content">
         <div ng-view></div>
