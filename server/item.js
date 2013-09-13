@@ -26,8 +26,12 @@ db.open(function (err, db) {
 });
 
 exports.getAllItems = function (req, res) {
+    console.log("in 'getAllItems'");
     db.collection(collectionName, function (err, collection) {
+        console.log("in 'getAllItems' -> collection");
+
         collection.find().toArray(function (err, items) {
+            console.log("in 'getAllItems' -> collection -> find");
             res.send(items);
         });
     });
