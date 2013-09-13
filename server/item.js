@@ -12,6 +12,7 @@ db = new Db(databaseName, server);
 
 db.open(function (err, db) {
     //authentication process
+
     db.authenticate('buona', 'buona', function (err, result) {
         if (!result) {
             db.close();
