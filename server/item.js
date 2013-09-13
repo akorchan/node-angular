@@ -11,6 +11,7 @@ var server = new Server('ds043368.mongolab.com', 43368, {auto_reconnect: true});
 db = new Db(databaseName, server);
 
 db.open(function (err, db) {
+    //authentication process
     db.authenticate('buona', 'buona', function (err, result) {
         if (!result) {
             db.close();
