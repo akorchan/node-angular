@@ -12,7 +12,9 @@ db = new Db(databaseName, server);
 
 db.open(function (err, db) {
     db.authenticate('buona', 'buona', function (err, result) {
-        db.close();
+        if (!result) {
+            db.close();
+        }
     });
     if (!err) {
         console.log("Connected to '" + databaseName + "' database");
@@ -26,12 +28,8 @@ db.open(function (err, db) {
 });
 
 exports.getAllItems = function (req, res) {
-    console.log("in 'getAllItems'");
     db.collection(collectionName, function (err, collection) {
-        console.log("in 'getAllItems' -> collection");
-
         collection.find().toArray(function (err, items) {
-            console.log("in 'getAllItems' -> collection -> find");
             res.send(items);
         });
     });
