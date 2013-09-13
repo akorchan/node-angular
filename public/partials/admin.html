@@ -1,7 +1,9 @@
+<!--<a href="#/store/add" class="pull-right">-->
+<button type="button" class="btn btn-success admin-button pull-right" ng-click="addItemDialog()">Добавить</button>
+<!--</a>-->
 <div>
     <h2>Консоль администрирования</h2>
 </div>
-
 <div class="panel panel-default">
     <!--<div class="panel-heading"><h4>Ассортимент товара</h4></div>-->
     <table class="table table-striped">
@@ -10,11 +12,12 @@
             <th></th>
             <th>Название</th>
             <th>Цена</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="item in items">
-            <td><img src="public/items-images/{{ item.image }}" style="width: 100px;"/></td>
+            <td><img src="public/items-images/{{ item.image }}" class="thumbnail" style="width: 100px;"/></td>
             <td style="vertical-align: middle;">{{ item.name }}</td>
             <td style="vertical-align: middle;">{{ item.price }} грн.</td>
             <td style="vertical-align: middle;">
