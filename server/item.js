@@ -4,13 +4,19 @@ var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
 
-var databaseName = 'storedb';
+var databaseName = 'heroku_app18084336';
 var collectionName = 'items';
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
+var server = new Server('ds043368.mongolab.com', 43368, {auto_reconnect: true});
 db = new Db(databaseName, server);
 
 db.open(function (err, db) {
+    //authentication process
+    db.authenticate('buona', 'buona', function (err, result) {
+        if (!result) {
+            db.close();
+        }
+    });
     if (!err) {
         console.log("Connected to '" + databaseName + "' database");
         db.collection(collectionName, {strict: true}, function (err, collection) {
@@ -270,7 +276,3 @@ var populateDB = function () {
     });
 
 };
-
-
-
-

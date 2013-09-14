@@ -2,13 +2,31 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AdminController', function ($scope, storeItems, $http, $timeout, $dialog, $location) {
+    .controller('AdminController', function ($scope, $modal, storeItems) {
         storeItems.getAllItems(function (data) {
             $scope.items = data;
         });
-        $scope.addItemDialog = function () {
-//            $timeout(function(){
-            $dialog.dialog({}).open('public/partials/dialogs/add-item-dialog.html');
-//            }, 3000);
-        }
+
+        $scope.fakeItems = ['item1', 'item2', 'item3'];
+
+
+        $scope.open = function () {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'public/partials/dialogs/add-item-dialog.html',
+                controller: 'AddItemController',
+                resolve: {
+                    items: function () {
+                        return $scope.fakeItems;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        };
+
     });
