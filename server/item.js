@@ -1,4 +1,5 @@
 var mongo = require('mongodb');
+var fs = require('fs');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -47,6 +48,7 @@ exports.findItemById = function (req, res) {
 };
 
 exports.addItem = function (req, res) {
+    // here described how to save uploaded image on disc http://howtonode.org/really-simple-file-uploads
     var item = req.body;
     console.log('Adding item: ' + JSON.stringify(item));
     db.collection(collectionName, function (err, collection) {
