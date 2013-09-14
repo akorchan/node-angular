@@ -1,15 +1,39 @@
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>I'm a modal!</h3>
+            <h3>Новый товар</h3>
         </div>
         <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">
-                    <a ng-click="selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ selected.item }}</b>
+            <!--<ul>-->
+            <!--<li ng-repeat="item in items">-->
+            <!--<a ng-click="selected.item = item">{{ item }}</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--Selected: <b>{{ selected.item }}</b>-->
+            <form role="form" action="/items" method="post">
+                <div class="form-group">
+                    <label for="itemName">Название товара</label>
+                    <input type="text" class="form-control" id="itemName" placeholder="Название">
+                </div>
+                <div class="form-group">
+                    <label for="itemDescription">Описание товара</label>
+                    <textarea class="form-control span12" id="itemDescription" rows="6"
+                              placeholder="Описание"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice">Цена товара, грн</label>
+                    <input type="text" class="form-control" id="itemPrice" placeholder="Цена">
+                </div>
+                <div class="form-group">
+                    <label for="addFile">Изображение товара</label>
+                    <input type="file" id="addFile">
+                    <input type="file" accept="image/*" image="image"/>
+                    <img ng-show="image" ng-src="{{image.url}}" type="{{image.file.type}}"/>
+
+                    <p class="help-block">Предпочтительный размер изображения 200 х 200 пикселей</p>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-click="ok()">OK</button>

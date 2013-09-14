@@ -73,6 +73,10 @@ body {
     width: 95px;
 }
 
+textarea {
+    resize: vertical;
+}
+
 /*For modal dialog*/
 .modal {
     display: block;
