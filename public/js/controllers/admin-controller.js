@@ -3,15 +3,14 @@
 /** Controllers */
 angular.module('store.controllers')
     .controller('AdminController', function ($scope, $modal, storeItems) {
-        storeItems.getAllItems(function (data) {
+
+        storeItems.getAllItemsByType('', function (data) {
             $scope.items = data;
         });
 
+        // for add item modal
         $scope.fakeItems = ['item1', 'item2', 'item3'];
-
-
         $scope.open = function () {
-
             var modalInstance = $modal.open({
                 templateUrl: 'public/partials/dialogs/add-item-dialog.html',
                 controller: 'AddItemController',
@@ -21,7 +20,6 @@ angular.module('store.controllers')
                     }
                 }
             });
-
             modalInstance.result.then(function (selectedItem) {
                 $scope.selected = selectedItem;
             }, function () {

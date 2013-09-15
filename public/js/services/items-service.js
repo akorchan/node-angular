@@ -4,11 +4,11 @@
 angular.module('store.services').service('storeItems', function ($http) {
 
     /**
-     * Get all available items.
+     * Get all available items bt type.
      * @param callback
      */
-    var getAllItems = function (callback) {
-        $http({method: "GET", data: {}, url: "/items"}).
+    var getAllItemsByType = function (itemType, callback) {
+        $http({method: "GET", data: {}, url: "/items?type=" + itemType}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -55,7 +55,7 @@ angular.module('store.services').service('storeItems', function ($http) {
     };
 
     return {
-        getAllItems: getAllItems,
+        getAllItemsByType: getAllItemsByType,
         findItemById: findItemById,
         addItem: addItem,
         updateItem: updateItem,
