@@ -5,10 +5,8 @@ angular.module('store', ['store.controllers', 'store.services']).
         $routeProvider.
             when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController', pageKey: 'STORE'}).
             when('/store/:itemId', {templateUrl: 'public/partials/item-view.html', controller: 'ItemController', pageKey: 'STORE'}).
-            when('/about', {templateUrl: 'public/partials/about.html', controller: 'AboutController', pageKey: 'ABOUT'}).
+            when('/cook', {templateUrl: 'public/partials/cook.html', controller: 'CookController', pageKey: 'COOK'}).
             when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
-            when('/delivery', {templateUrl: 'public/partials/delivery.html', controller: 'DeliveryController', pageKey: 'DELIVERY'}).
-            when('/contactus', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'CONTACTUS'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             otherwise({redirectTo: '/store'});
     }).run(function ($rootScope, $http, $route) {
