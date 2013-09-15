@@ -29,9 +29,13 @@ db.open(function (err, db) {
     }
 });
 
-exports.getAllItems = function (req, res) {
+exports.getAllItemsByType = function (req, res) {
+    var condition = {};
+    if (req.query.type !== "") {
+        condition = {price: '49'};
+    }
     db.collection(collectionName, function (err, collection) {
-        collection.find().toArray(function (err, items) {
+        collection.find(condition).toArray(function (err, items) {
             res.send(items);
         });
     });

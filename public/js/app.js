@@ -21,5 +21,8 @@ angular.module('store', ['store.controllers', 'store.services']).
 /** services module initialization, allows adding services to module in multiple files */
 angular.module('store.services', [/*'ngCookies'*/]);
 
-/** controllers module initialization, allows adding services to module in multiple files */
-angular.module('store.controllers', ['ui.bootstrap', 'store.services']);
+/** controllers module initialization, allows adding controllers to module in multiple files */
+angular.module('store.controllers', ['ui.bootstrap', 'store.services', 'store.directives']);
+
+/** directives module initialization, allows adding directives to module in multiple files */
+angular.module('store.directives', []);
