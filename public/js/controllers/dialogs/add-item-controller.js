@@ -9,7 +9,6 @@ angular.module('store.controllers')
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
                 $scope.uploadedFile = args.file;
-                $scope.newItem.image = args.file.name;
                 $scope.downloadSize = "Размер загруженного изображения " + (args.file.size / 1024).toFixed(0) + " КБ";
             });
         });
@@ -24,9 +23,8 @@ angular.module('store.controllers')
         $scope.ok = function () {
             $scope.newItem.type = 2; //should be removed
             storeItems.addItem($scope.newItem, $scope.uploadedFile, function () {
-                alert("QQQ");
+                $modalInstance.close($scope.selected.item);
             });
-            $modalInstance.close($scope.selected.item);
         };
 
         $scope.cancel = function () {
