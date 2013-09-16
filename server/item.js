@@ -53,10 +53,10 @@ exports.findItemById = function (req, res) {
 
 exports.addItem = function (req, res) {
     // here described how to save uploaded image on disc http://howtonode.org/really-simple-file-uploads
-    var item = req.body;
-    console.log('Adding item: ' + JSON.stringify(item));
+    var item = JSON.parse(req.body.object);
+    console.log('Adding item: ' + JSON.stringify(req.body));
     db.collection(collectionName, function (err, collection) {
-        collection.insert(item.object, {safe: true}, function (err, result) {
+        collection.insert(item, {safe: true}, function (err, result) {
             if (err) {
                 res.send({'error': 'An error has occurred'});
             } else {

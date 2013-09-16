@@ -46,7 +46,7 @@ angular.module('store.controllers')
                     //need to convert our json object to a string version of json otherwise
                     // the browser will do a 'toString()' on the object which will result
                     // in the value '[Object object]' on the server.
-                    formData.append("object", angular.toJson(data.model));
+                    formData.append("object", angular.toJson(data.object));
                     //now add all of the assigned files
                     formData.append("file", data.file);
                     return formData;
