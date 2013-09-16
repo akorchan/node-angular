@@ -21,7 +21,7 @@ angular.module('store.services').service('storeItems', function ($http) {
      * @param callback
      */
     var findItemById = function (itemId, callback) {
-        $http({method: "GET", data: {/*id: itemId*/}, url: "/items/" + itemId}).
+        $http({method: "GET", data: {}, url: "/items/" + itemId}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -34,8 +34,13 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Add new item.
      * @param callback
      */
-    var addItem = function (callback) {
-
+    var addItem = function (objectToStore, fileToStore, callback) {
+        $http({method: "POST", data: {object: objectToStore, file: fileToStore}, url: "/items" }).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
     };
 
     /**
