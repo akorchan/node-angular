@@ -52,7 +52,6 @@ exports.findItemById = function (req, res) {
 };
 
 exports.addItem = function (req, res) {
-    // here described how to save uploaded image on disc http://howtonode.org/really-simple-file-uploads
     var item = JSON.parse(req.body.object);
     console.log('Adding item: ' + JSON.stringify(req.body));
     db.collection(collectionName, function (err, collection) {
@@ -61,7 +60,25 @@ exports.addItem = function (req, res) {
                 res.send({'error': 'An error has occurred'});
             } else {
                 console.log('Success: ' + JSON.stringify(result[0]));
-                res.send(result[0]);
+                result[0].image = result[0]._id.id + ".jpg";
+                collection.update({'_id': result[0]._id.id}, result[0], {safe: true}, function (err, result) {
+                    if (err) {
+                        console.log('Error updating item: ' + err);
+                        res.send({'error': 'An error has occurred'});
+                    } else {
+                        console.log('' + result + ' document(s) updated');
+                        fs.readFile(req.files.file.path, function (err, data) {
+                            var newPath = './public/items-images/' + item.image;
+                            fs.writeFile(newPath, data, function (err) {
+                                if (err) {
+                                    console.log("error during file saving");
+                                }
+                            });
+                        });
+                        res.send(result[0]);
+                    }
+                });
+//                res.send(result[0]);
             }
         });
     });
