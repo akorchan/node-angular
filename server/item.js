@@ -56,7 +56,7 @@ exports.addItem = function (req, res) {
     var item = req.body;
     console.log('Adding item: ' + JSON.stringify(item));
     db.collection(collectionName, function (err, collection) {
-        collection.insert(item, {safe: true}, function (err, result) {
+        collection.insert(item.object, {safe: true}, function (err, result) {
             if (err) {
                 res.send({'error': 'An error has occurred'});
             } else {
