@@ -20,19 +20,19 @@ db.open(function (err, db) {
     });
     if (!err) {
         console.log("Connected to '" + databaseName + "' database");
-        db.collection(collectionName, {strict: true}, function (err, collection) {
-            if (err) {
-                console.log("The '" + collectionName + "' collection doesn't exist. Creating it with sample data...");
-                populateDB();
-            }
-        });
+//        db.collection(collectionName, {strict: true}, function (err, collection) {
+//            if (err) {
+//                console.log("The '" + collectionName + "' collection doesn't exist. Creating it with sample data...");
+//                populateDB();
+//            }
+//        });
     }
 });
 
 exports.getAllItemsByType = function (req, res) {
     var condition = {};
     if (req.query.type !== "") {
-        condition = {price: '49'};
+        condition = {type: req.query.type};
     }
     db.collection(collectionName, function (err, collection) {
         collection.find(condition).toArray(function (err, items) {
@@ -52,10 +52,7 @@ exports.findItemById = function (req, res) {
 };
 
 exports.addItem = function (req, res) {
-//    var asd = req.body.object;
-    var item2 = req.body.object;
     var item = JSON.parse(req.body.object);
-    console.log('Adding item: ' + JSON.stringify(req.body));
     db.collection(collectionName, function (err, collection) {
         collection.insert(item, {safe: true}, function (err, result) {
             if (err) {
@@ -73,7 +70,6 @@ exports.addItem = function (req, res) {
                         res.send(result[0]);
                     }
                 });
-//                res.send(result[0]);
             }
         });
     });

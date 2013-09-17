@@ -68,14 +68,6 @@ angular.module('store.services').service('storeItems', function ($http) {
             error(function (data, status, headers, config) {
                 console.log(data);
             });
-
-
-        $http({method: "POST", data: {object: objectToStore, file: fileToStore}, url: "/items" }).
-            success(function (data) {
-                callback(data);
-            }).error(function (data) {
-                console.log(data);
-            });
     };
 
     /**
