@@ -3,12 +3,14 @@
 angular.module('store', ['store.controllers', 'store.services']).
     config(function ($routeProvider) {
         $routeProvider.
+            when('/main', {templateUrl: 'public/partials/main.html', controller: 'MainPageController', pageKey: 'MAIN'}).
             when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController', pageKey: 'STORE'}).
             when('/store/:itemId', {templateUrl: 'public/partials/item-view.html', controller: 'ItemController', pageKey: 'STORE'}).
             when('/cook', {templateUrl: 'public/partials/cook.html', controller: 'CookController', pageKey: 'COOK'}).
             when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
-            otherwise({redirectTo: '/store'});
+            when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
+            otherwise({redirectTo: '/main'});
     }).run(function ($rootScope, $http, $route) {
         $rootScope.$on("$routeChangeSuccess",
             function (angularEvent, currentRoute, previousRoute) {

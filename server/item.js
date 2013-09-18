@@ -53,21 +53,23 @@ exports.findItemById = function (req, res) {
 
 exports.addItem = function (req, res) {
     var item = JSON.parse(req.body.object);
+    var file = req.files.file;
     db.collection(collectionName, function (err, collection) {
         collection.insert(item, {safe: true}, function (err, result) {
             if (err) {
                 res.send({'error': 'An error has occurred'});
             } else {
                 console.log('Success: ' + JSON.stringify(result[0]));
-                result[0].image = encode_utf8(result[0]._id) + ".jpg";
+                result[0].image = file ? encode_utf8(result[0]._id) + ".jpg" : "placeholder.jpg";
                 collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
                     if (err) {
                         console.log('Error updating item: ' + err);
                         res.send({'error': 'An error has occurred'});
                     } else {
                         console.log('' + result + ' document(s) updated');
-                        saveFileToStore(req.files.file, item.image);
-                        res.send(result[0]);
+                        saveFileToStore(file, item.image, function () {
+                            res.send(result[0]);
+                        });
                     }
                 });
             }
@@ -79,15 +81,21 @@ function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
 }
 
-function saveFileToStore(fileToSave, fileName) {
-    fs.readFile(fileToSave.path, function (err, data) {
-        var newPath = './public/items-images/' + fileName;
-        fs.writeFile(newPath, data, function (err) {
-            if (err) {
-                console.log("error during file saving");
-            }
+function saveFileToStore(fileToSave, fileName, callback) {
+    if (fileToSave) {
+        fs.readFile(fileToSave.path, function (err, data) {
+            var newPath = './public/items-images/' + fileName;
+            fs.writeFile(newPath, data, function (err) {
+                if (err) {
+                    console.log("error during file saving");
+                } else {
+                    callback();
+                }
+            });
         });
-    });
+    } else {
+        callback();
+    }
 }
 
 exports.updateItem = function (req, res) {
