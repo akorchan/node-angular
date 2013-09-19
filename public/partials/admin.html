@@ -24,9 +24,9 @@
                 <a href="#/store/{{ item._id }}">
                     <button type="button" class="btn btn-warning admin-button">Изменить</button>
                 </a>
-                <a href="#/store/{{ item._id }}">
-                    <button type="button" class="btn btn-danger admin-button">Удалить</button>
-                </a>
+                <button type="button" class="btn btn-danger admin-button" ng-click="deleteItem('{{ item._id }}')"
+                        >Удалить
+                </button>
             </td>
         </tr>
         </tbody>

@@ -82,8 +82,13 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Delete item.
      * @param callback
      */
-    var deleteItem = function (callback) {
-
+    var deleteItem = function (itemId, callback) {
+        $http({method: "DELETE", data: {}, url: "/items/" + itemId}).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
     };
 
     return {
