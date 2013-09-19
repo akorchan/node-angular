@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AddItemController', function ($scope, $modalInstance, $http, items, storeItems) {
+    .controller('AddItemController', function ($scope, $modalInstance, $http, $route, items, storeItems) {
 
         $scope.downloadSize = "Предпочтительный размер изображения: 20-50 КБ";
 
@@ -23,6 +23,7 @@ angular.module('store.controllers')
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
             storeItems.addItem($scope.newItem, $scope.uploadedFile, function () {
+                $route.reload();
                 $modalInstance.close($scope.selected.item);
             });
         };

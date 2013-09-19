@@ -1,5 +1,6 @@
 var mongo = require('mongodb');
 var fs = require('fs');
+var path = require('path');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -118,17 +119,30 @@ exports.updateItem = function (req, res) {
 
 exports.deleteItem = function (req, res) {
     var id = req.params.id;
-    console.log('Deleting item: ' + id);
-    db.collection(collectionName, function (err, collection) {
-        collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
-            if (err) {
-                res.send({'error': 'An error has occurred - ' + err});
-            } else {
-                console.log('' + result + ' document(s) deleted');
-                res.send(req.body);
-            }
+    var filePath = "./public/items-images/" + id + ".jpg";
+    var removeFromDB = function () {
+        db.collection(collectionName, function (err, collection) {
+            collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
+                if (err) {
+                    res.send({'error': 'An error has occurred - ' + err});
+                } else {
+                    console.log('' + result + ' document(s) deleted');
+                    res.send(req.body);
+                }
+            });
         });
-    });
+    };
+    if (!path.existsSync(filePath)) {
+        removeFromDB();
+    } else {
+        fs.unlink(filePath, function (err) {
+            if (err)
+                throw err;
+            removeFromDB();
+        });
+    }
+
+
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/

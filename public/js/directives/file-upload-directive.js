@@ -1,6 +1,6 @@
 'use strict';
 
-/** Controllers */
+/** Directive */
 angular.module('store.directives')
     .directive('fileUpload', function () {
         return {

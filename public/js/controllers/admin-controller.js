@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AdminController', function ($scope, $modal, storeItems) {
+    .controller('AdminController', function ($scope, $modal, $route, storeItems) {
 
         storeItems.getAllItemsByType('', function (data) {
             $scope.items = data;
@@ -26,5 +26,12 @@ angular.module('store.controllers')
                 console.log('Modal dismissed at: ' + new Date());
             });
         };
+
+        $scope.deleteItem = function (itemId) {
+            storeItems.deleteItem(itemId, function () {
+                $route.reload();
+                alert("Удаление прошло успешно.")
+            });
+        }
 
     });
