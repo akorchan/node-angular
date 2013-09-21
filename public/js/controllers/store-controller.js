@@ -2,11 +2,12 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('StoreController', function ($scope, $http, $timeout, $location, storeItems) {
+    .controller('StoreController', function ($scope, $routeParams, storeItems) {
+
 //        if (ncAccount.isLoggedIn()) { $location.path('/map'); }
 //        $scope.login = ncAccount.tomtomLogin;
 
-        storeItems.getAllItems(function (data) {
+        storeItems.getAllItemsByType($routeParams.type, function (data) {
             $scope.items = data;
         });
 //        $scope.message = StateService.getMessage();
