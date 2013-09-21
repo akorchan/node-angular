@@ -4,11 +4,11 @@
 angular.module('store.services').service('storeItems', function ($http) {
 
     /**
-     * Get all available items.
+     * Get all available items bt type.
      * @param callback
      */
-    var getAllItems = function (callback) {
-        $http({method: "GET", data: {}, url: "/items"}).
+    var getAllItemsByType = function (itemType, callback) {
+        $http({method: "GET", data: {}, url: "/items?type=" + itemType}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -21,7 +21,7 @@ angular.module('store.services').service('storeItems', function ($http) {
      * @param callback
      */
     var findItemById = function (itemId, callback) {
-        $http({method: "GET", data: {/*id: itemId*/}, url: "/items/" + itemId}).
+        $http({method: "GET", data: {}, url: "/items/" + itemId}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -34,8 +34,40 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Add new item.
      * @param callback
      */
-    var addItem = function (callback) {
-
+    var addItem = function (objectToStore, fileToStore, callback) {
+        $http({
+            method: 'POST',
+            url: "/items",
+            //IMPORTANT!!! You might think this should be set to 'multipart/form-data'
+            // but this is not true because when we are sending up files the request
+            // needs to include a 'boundary' parameter which identifies the boundary
+            // name between parts in this multi-part request and setting the Content-type
+            // manually will not set this boundary parameter. For whatever reason,
+            // setting the Content-type to 'false' will force the request to automatically
+            // populate the headers properly including the boundary parameter.
+            headers: { 'Content-Type': false },
+            //This method will allow us to change how the data is sent up to the server
+            // for which we'll need to encapsulate the model data in 'FormData'
+            transformRequest: function (data) {
+                var formData = new FormData();
+                //need to convert our json object to a string version of json otherwise
+                // the browser will do a 'toString()' on the object which will result
+                // in the value '[Object object]' on the server.
+                formData.append("object", angular.toJson(data.object));
+                //now add all of the assigned files
+                formData.append("file", data.file);
+                return formData;
+            },
+            //Create an object that contains the model and files which will be transformed
+            // in the above transformRequest method
+            data: { object: objectToStore, file: fileToStore }
+        }).
+            success(function (data, status, headers, config) {
+                callback();
+            }).
+            error(function (data, status, headers, config) {
+                console.log(data);
+            });
     };
 
     /**
@@ -50,12 +82,17 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Delete item.
      * @param callback
      */
-    var deleteItem = function (callback) {
-
+    var deleteItem = function (itemId, callback) {
+        $http({method: "DELETE", data: {}, url: "/items/" + itemId}).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
     };
 
     return {
-        getAllItems: getAllItems,
+        getAllItemsByType: getAllItemsByType,
         findItemById: findItemById,
         addItem: addItem,
         updateItem: updateItem,
