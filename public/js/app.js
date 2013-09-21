@@ -3,14 +3,14 @@
 angular.module('store', ['store.controllers', 'store.services']).
     config(function ($routeProvider) {
         $routeProvider.
+            when('/main', {templateUrl: 'public/partials/main.html', controller: 'MainPageController', pageKey: 'MAIN'}).
             when('/store', {templateUrl: 'public/partials/store.html', controller: 'StoreController', pageKey: 'STORE'}).
             when('/store/:itemId', {templateUrl: 'public/partials/item-view.html', controller: 'ItemController', pageKey: 'STORE'}).
-            when('/about', {templateUrl: 'public/partials/about.html', controller: 'AboutController', pageKey: 'ABOUT'}).
+            when('/cook', {templateUrl: 'public/partials/cook.html', controller: 'CookController', pageKey: 'COOK'}).
             when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
-            when('/delivery', {templateUrl: 'public/partials/delivery.html', controller: 'DeliveryController', pageKey: 'DELIVERY'}).
-            when('/contactus', {templateUrl: 'public/partials/contactus.html', controller: 'ContactUsController', pageKey: 'CONTACTUS'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
-            otherwise({redirectTo: '/store'});
+            when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
+            otherwise({redirectTo: '/main'});
     }).run(function ($rootScope, $http, $route) {
         $rootScope.$on("$routeChangeSuccess",
             function (angularEvent, currentRoute, previousRoute) {
@@ -23,5 +23,8 @@ angular.module('store', ['store.controllers', 'store.services']).
 /** services module initialization, allows adding services to module in multiple files */
 angular.module('store.services', [/*'ngCookies'*/]);
 
-/** controllers module initialization, allows adding services to module in multiple files */
-angular.module('store.controllers', ['ui.bootstrap', 'store.services']);
+/** controllers module initialization, allows adding controllers to module in multiple files */
+angular.module('store.controllers', ['ui.bootstrap', 'store.services', 'store.directives']);
+
+/** directives module initialization, allows adding directives to module in multiple files */
+angular.module('store.directives', []);
