@@ -1,6 +1,13 @@
 @font-face {
-    font-family: "GoudyOldStyleMTBoldItalic";
-    src: url("/core_content/fonts/goubi___-webfont.ttf") format("truetype");
+    font-family: "Gouby";
+    src: url("/public/fonts/goubi.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "Ariadna";
+    src: url("/public/fonts/ariadna.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
@@ -46,7 +53,6 @@ body {
 
 .item-name {
     height: 130px;
-    font-family: GoudyOldStyleMTBoldItalic, Georgia, sans-serif, Arial, serif;
 }
 
 .item-box {
@@ -168,4 +174,19 @@ textarea {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ff0088cc', endColorstr = '#ff0077b3', GradientType = 0);
 }
 
+.text-on-main-page:first-letter {
+    font-size: 30px;
+    font-family: Ariadna, serif;
+}
+
+.text-on-main-page {
+    font-family: Goubi, Georgia, sans-serif, Arial, serif;
+    font-size: 18px;
+    text-indent: 20px;
+    text-align: justify;
+}
+
+.text-logo {
+    font-family: Goubi, Georgia, sans-serif, Arial, serif;
+}
 
