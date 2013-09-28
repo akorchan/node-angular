@@ -190,3 +190,8 @@ textarea {
     font-family: Goubi, Georgia, sans-serif, Arial, serif;
 }
 
+.thumbnail {
+    background-image: url('/public/items-images/placeholder.jpg');
+    background-size: 100%;
+}
+

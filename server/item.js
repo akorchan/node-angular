@@ -1,16 +1,19 @@
+'use strict';
+
 var mongo = require('mongodb');
 var fs = require('fs');
 var path = require('path');
+var dbox = require('./dbox');
 
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var Server = mongo.Server;
+var Db = mongo.Db;
+var BSON = mongo.BSONPure;
 
 var databaseName = 'heroku_app18084336';
 var collectionName = 'items';
 
 var server = new Server('ds043368.mongolab.com', 43368, {auto_reconnect: true});
-db = new Db(databaseName, server);
+var db = new Db(databaseName, server);
 
 db.open(function (err, db) {
     //authentication process
@@ -58,24 +61,31 @@ exports.addItem = function (req, res) {
     var file = req.files.file;
     db.collection(collectionName, function (err, collection) {
         collection.insert(item, {safe: true}, function (err, result) {
-            if (err) {
-                res.send({'error': 'An error has occurred'});
-            } else {
-                console.log('Success: ' + JSON.stringify(result[0]));
-                result[0].image = file ? encode_utf8(result[0]._id) + ".jpg" : "placeholder.jpg";
-                collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
-                    if (err) {
-                        console.log('Error updating item: ' + err);
-                        res.send({'error': 'An error has occurred'});
-                    } else {
-                        console.log('' + result + ' document(s) updated');
-                        saveFileToStore(file, item.image, function () {
-                            res.send(result[0]);
-                        });
-                    }
-                });
+                if (err) {
+                    res.send({'error': 'An error has occurred'});
+                } else {
+                    console.log('Success: ' + JSON.stringify(result[0]));
+                    result[0].image = file ? encode_utf8(result[0]._id) + ".jpg" : "placeholder.jpg";
+                    collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
+                            if (err) {
+                                console.log('Error updating item: ' + err);
+                                res.send({'error': 'An error has occurred'});
+                            } else {
+                                console.log('' + result + ' document(s) updated');
+//                        saveFileToStore(file, item.image, function () {
+//                            res.send(result[0]);
+//                        });
+                                dbox.addFile(file, item.image, function () {
+                                    res.send(result[0]);
+                                });
+                            }
+                        }
+                    )
+                    ;
+                }
             }
-        });
+        )
+        ;
     });
 };
 
@@ -133,15 +143,16 @@ exports.deleteItem = function (req, res) {
             });
         });
     };
-    if (!path.existsSync(filePath)) {
-        removeFromDB();
-    } else {
-        fs.unlink(filePath, function (err) {
-            if (err)
-                throw err;
-            removeFromDB();
-        });
-    }
+    dbox.deleteFile(id + ".jpg", removeFromDB);
+//    if (!path.existsSync(filePath)) {
+//        removeFromDB();
+//    } else {
+//        fs.unlink(filePath, function (err) {
+//            if (err)
+//                throw err;
+//            removeFromDB();
+//        });
+//    }
 
 
 };
