@@ -2,6 +2,7 @@
 var express = require('express');
 var http = require('http');
 var item = require('./server/item');
+var dbox = require('./server/dbox');
 //var auth = require('./server/routes/auth');
 
 var app = express();
@@ -30,6 +31,7 @@ app.get('/items/:id', item.findItemById);
 app.post('/items', item.addItem);
 app.put('/items/:id', item.updateItem);
 app.delete('/items/:id', item.deleteItem);
+app.get('/images/:path', dbox.getFile);
 
 var port = process.env.PORT || 5000;
 http.createServer(app).listen(port);
