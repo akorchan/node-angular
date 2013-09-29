@@ -5,10 +5,11 @@
         <div class="row">
             <div ng-repeat="item in items" class="col-lg-3 col-md-4 col-sm-6 col-xs-12 item-box">
                 <div class="text-center">
-                    <!--<a href="#/store/{{ item._id }}" title="{{item.name}}">-->
-                    <img src="http://localhost:5000/images/{{ item.image }}" class="thumbnail img-responsive"
-                         style="height:170px; max-width:170px;">
-                    <!--</a>-->
+                    <div style="height: 170px">
+                        <img src="http://localhost:5000/images/{{ item.image }}"
+                             class="thumbnail img-responsive"
+                             style="max-width:170px;">
+                    </div>
 
                     <div class="caption">
                         <h3 class="item-name">{{item.name}}</h3>
