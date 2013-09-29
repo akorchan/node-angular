@@ -58,6 +58,7 @@ exports.findItemById = function (req, res) {
 
 exports.addItem = function (req, res) {
     var item = JSON.parse(req.body.object);
+    item.date = new Date().getTime();
     var file = req.files.file;
     db.collection(collectionName, function (err, collection) {
         collection.insert(item, {safe: true}, function (err, result) {
