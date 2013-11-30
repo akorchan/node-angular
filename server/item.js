@@ -40,7 +40,8 @@ exports.getAllItemsByType = function (req, res) {
         condition = {type: req.query.type};
     }
     db.collection(collectionName, function (err, collection) {
-        collection.find(condition).toArray(function (err, items) {
+        collection.find(condition).sort("date", -1,function () {
+        }).toArray(function (err, items) {
             res.send(items);
         });
     });
