@@ -17,6 +17,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="item in items">
+            <td>{{ $index + 1}} .</td>
             <td><img src="http://localhost:5000/images/{{ item.image }}" class="thumbnail" style="width: 100px;"/></td>
             <td style="vertical-align: middle;">{{ item.name }}</td>
             <td style="vertical-align: middle;">{{ item.price }} грн.</td>

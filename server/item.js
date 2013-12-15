@@ -41,9 +41,9 @@ exports.getAllItemsByType = function (req, res) {
     }
     db.collection(collectionName, function (err, collection) {
         collection.find(condition).sort("date", -1,function () {
-        }).toArray(function (err, items) {
-            res.send(items);
-        });
+        }).limit(parseInt(req.query.number)).toArray(function (err, items) {
+                res.send(items);
+            });
     });
 };
 

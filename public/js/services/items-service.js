@@ -8,7 +8,17 @@ angular.module('store.services').service('storeItems', function ($http) {
      * @param callback
      */
     var getAllItemsByType = function (itemType, callback) {
-        $http({method: "GET", data: {}, url: "/items?type=" + itemType}).
+        getLimitedNumberItemsByType(itemType, 0, callback);
+    };
+
+    /**
+     * Get specified number with specified type.
+     * @param itemType
+     * @param number
+     * @param callback
+     */
+    var getLimitedNumberItemsByType = function (itemType, number, callback) {
+        $http({method: "GET", data: {}, url: "/items?type=" + itemType + "&number=" + number}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -93,6 +103,7 @@ angular.module('store.services').service('storeItems', function ($http) {
 
     return {
         getAllItemsByType: getAllItemsByType,
+        getLimitedNumberItemsByType: getLimitedNumberItemsByType,
         findItemById: findItemById,
         addItem: addItem,
         updateItem: updateItem,
