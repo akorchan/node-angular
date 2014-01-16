@@ -7,7 +7,7 @@
 <body ng-app="store">
 <div id="wrap">
     <div class="container">
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div ng-controller="MenuController" class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-header">
                 <img class="pull-left" src="/public/images/logo.png"/>
                 <a class="navbar-brand" href="#/main">Buona Italia</a>
@@ -40,6 +40,7 @@
                     <li class="pagekey_COOK"><a href="#/cook" class="btn">Готовим вместе</a></li>
                     <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Как заказать</a></li>
                     <li class="pagekey_ADMIN"><a href="#/admin" class="btn">Администрирование</a></li>
+                    <li><a class="btn" ng-click="loginForm()">Вход</a></li>
                 </ul>
             </div>
         </div>
@@ -61,6 +62,7 @@
 <script type="text/javascript" src="/public/js/vendor/ui-bootstrap-tpls-0.6.0.min.js"></script>
 <script type="text/javascript" src="/public/js/app.js"></script>
 <script type="text/javascript" src="/public/js/services/items-service.js"></script>
+<script type="text/javascript" src="/public/js/services/login-service.js"></script>
 <script type="text/javascript" src="/public/js/directives/file-upload-directive.js"></script>
 <script type="text/javascript" src="/public/js/controllers/store-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/admin-controller.js"></script>
@@ -69,7 +71,9 @@
 <script type="text/javascript" src="/public/js/controllers/store-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/item-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/main-controller.js"></script>
+<script type="text/javascript" src="/public/js/controllers/menu-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/dialogs/add-item-controller.js"></script>
+<script type="text/javascript" src="/public/js/controllers/dialogs/login-controller.js"></script>
 
 </body>
 
