@@ -39,8 +39,8 @@
                     <!--<a href="#/store" class="btn">Главная</a></li>-->
                     <li class="pagekey_COOK"><a href="#/cook" class="btn">Готовим вместе</a></li>
                     <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Как заказать</a></li>
-                    <li class="pagekey_ADMIN"><a href="#/admin" class="btn">Администрирование</a></li>
-                    <li><a class="btn" ng-click="loginForm()">Вход</a></li>
+                    <li class="pagekey_ADMIN" ng-show="login.isLoggedIn"><a href="#/admin" class="btn">Администрирование</a></li>
+                    <li><a class="btn" ng-click="loginFunction()">{{login.title}}</a></li>
                 </ul>
             </div>
         </div>
