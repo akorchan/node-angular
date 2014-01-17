@@ -1,7 +1,5 @@
 'use strict';
 
-//http://stackoverflow.com/questions/7990890/how-to-implement-login-auth-in-node-js
-
 exports.login = function (req, res) {
     var post = req.body;
     if (post.user == 'admin' && post.pass == 'admin') {
@@ -14,7 +12,7 @@ exports.login = function (req, res) {
 
 exports.logout = function (req, res) {
     delete req.session.user_id;
-    res.redirect('#/main');
+    res.send("logout")
 };
 
 exports.checkAuth = function(req, res, next) {

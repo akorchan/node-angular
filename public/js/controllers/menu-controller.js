@@ -2,24 +2,33 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('MenuController', function ($scope, $modal, $http, $timeout, $location) {
+    .controller('MenuController', function ($scope, $modal, $rootScope, $location, LoginService) {
 
-        $scope.fakeItems = ['item1', 'item2', 'item3'];
-        $scope.loginForm = function () {
-            var modalInstance = $modal.open({
+        $scope.login = {};
+        $scope.$watch(LoginService.isLoggedIn, function () {
+            $scope.login.title = LoginService.isLoggedIn() ? "Выход" : "Вход";
+            $scope.loginFunction = LoginService.isLoggedIn() ? logoutForm : loginForm;
+            $scope.login.isLoggedIn = LoginService.isLoggedIn();
+        });
+        $scope.login.title = LoginService.isLoggedIn() ? "Выход" : "Вход";
+
+        var loginForm = function () {
+            $modal.open({
                 templateUrl: 'public/partials/dialogs/login-dialog.html',
                 controller: 'LoginController',
                 resolve: {
                     items: function () {
-                        return $scope.fakeItems;
+                        return null;
                     }
                 }
             });
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-            }, function () {
-                console.log('Modal dismissed at: ' + new Date());
-            });
         };
 
+        var logoutForm = function () {
+            LoginService.logout(function(data) {
+                if (data === "logout") {
+                    $location.path('/');
+                }
+            });
+        };
     });
