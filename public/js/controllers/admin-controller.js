@@ -9,14 +9,13 @@ angular.module('store.controllers')
         });
 
         // for add item modal
-        $scope.fakeItems = ['item1', 'item2', 'item3'];
         $scope.open = function () {
             var modalInstance = $modal.open({
                 templateUrl: 'public/partials/dialogs/add-item-dialog.html',
                 controller: 'AddItemController',
                 resolve: {
                     items: function () {
-                        return $scope.fakeItems;
+                        return null;
                     }
                 }
             });
