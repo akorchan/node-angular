@@ -95,9 +95,10 @@ function addItem(item, file, successful, failure) {
                                 failure();
                             } else {
                                 console.log('' + result + ' document(s) updated');
-//                        saveFileToStore(file, item.image, function () {
-//                            res.send(result[0]);
-//                        });
+                                //in case of local storage
+//                                saveFileToStore(file, item.image, function () {
+//                                    res.send(result[0]);
+//                                });
                                 dbox.addFile(file, item.image, function () {
                                     successful(result[0]);
                                 });
@@ -118,13 +119,22 @@ function updateItem(item, file, successful, failure) {
     console.log('Updating item: ' + id);
     console.log(JSON.stringify(item));
     db.collection(collectionName, function (err, collection) {
+        item.image = file ? encode_utf8(id) + ".jpg" : "placeholder.jpg";
         collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
             if (err) {
                 console.log('Error during updating: ' + err);
                 failure();
             } else {
                 console.log('' + result + ' document(s) updated');
-                successful(item);
+                if (file) {
+                    dbox.deleteFile(id + ".jpg", function () {
+                        dbox.addFile(file, item.image, function () {
+                            successful(result[0]);
+                        });
+                    });
+                } else {
+                    successful(result[0]);
+                }
             }
         });
     });
@@ -134,6 +144,7 @@ function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
 }
 
+// in case of local storage
 function saveFileToStore(fileToSave, fileName, callback) {
     if (fileToSave) {
         fs.readFile(fileToSave.path, function (err, data) {
