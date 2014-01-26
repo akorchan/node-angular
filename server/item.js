@@ -42,8 +42,8 @@ exports.getAllItemsByType = function (req, res) {
     db.collection(collectionName, function (err, collection) {
         collection.find(condition).sort("date", -1,function () {
         }).toArray(function (err, items) {
-            res.send(items);
-        });
+                res.send(items);
+            });
     });
 };
 
@@ -57,28 +57,49 @@ exports.findItemById = function (req, res) {
     });
 };
 
-exports.addItem = function (req, res) {
+exports.addOrUpdateItem = function (req, res) {
     var item = JSON.parse(req.body.object);
     item.date = new Date().getTime();
     var file = req.files.file;
+    if (item._id) {
+        updateItem(item, file,
+            function (createdItem) {
+                res.send(createdItem);
+            },
+            function () {
+                res.send({'error': 'An error has occurred'});
+            });
+    } else {
+        addItem(item, file,
+            function (createdItem) {
+                res.send(createdItem);
+            },
+            function () {
+                res.send({'error': 'An error has occurred'});
+            });
+    }
+
+};
+
+function addItem(item, file, successful, failure) {
     db.collection(collectionName, function (err, collection) {
         collection.insert(item, {safe: true}, function (err, result) {
                 if (err) {
-                    res.send({'error': 'An error has occurred'});
+                    failure();
                 } else {
                     console.log('Success: ' + JSON.stringify(result[0]));
                     result[0].image = file ? encode_utf8(result[0]._id) + ".jpg" : "placeholder.jpg";
                     collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
                             if (err) {
                                 console.log('Error updating item: ' + err);
-                                res.send({'error': 'An error has occurred'});
+                                failure();
                             } else {
                                 console.log('' + result + ' document(s) updated');
 //                        saveFileToStore(file, item.image, function () {
 //                            res.send(result[0]);
 //                        });
                                 dbox.addFile(file, item.image, function () {
-                                    res.send(result[0]);
+                                    successful(result[0]);
                                 });
                             }
                         }
@@ -89,7 +110,25 @@ exports.addItem = function (req, res) {
         )
         ;
     });
-};
+}
+
+function updateItem(item, file, successful, failure) {
+    var id = req.params.id;
+    var item = req.body;
+    console.log('Updating item: ' + id);
+    console.log(JSON.stringify(item));
+    db.collection(collectionName, function (err, collection) {
+        collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
+            if (err) {
+                console.log('Error updating wine: ' + err);
+                res.send({'error': 'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.send(item);
+            }
+        });
+    });
+}
 
 function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
@@ -112,27 +151,9 @@ function saveFileToStore(fileToSave, fileName, callback) {
     }
 }
 
-exports.updateItem = function (req, res) {
-    var id = req.params.id;
-    var item = req.body;
-    console.log('Updating item: ' + id);
-    console.log(JSON.stringify(item));
-    db.collection(collectionName, function (err, collection) {
-        collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
-            if (err) {
-                console.log('Error updating wine: ' + err);
-                res.send({'error': 'An error has occurred'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(item);
-            }
-        });
-    });
-};
-
 exports.deleteItem = function (req, res) {
     var id = req.params.id;
-    var filePath = "./public/items-images/" + id + ".jpg";
+//    var filePath = "./public/items-images/" + id + ".jpg";
     var removeFromDB = function () {
         db.collection(collectionName, function (err, collection) {
             collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
