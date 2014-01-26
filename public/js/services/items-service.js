@@ -67,6 +67,7 @@ angular.module('store.services').service('storeItems', function ($http) {
             }).
             error(function (data, status, headers, config) {
                 console.log(data);
+                callback();
             });
     };
 

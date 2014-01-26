@@ -11,14 +11,14 @@ exports.addFile = function (file, requiredName, callback) {
         fs.readFile(file.path, function (err, data) {
             if (err) {
                 console.log("Error during uploading image to Dropbox");
-                throw err;
             }
             client.put(requiredName, data, function (status, reply) {
                 callback();
             });
         });
     } else {
-        console.log("Can't put file to Dropbox. File is not defined.")
+        console.log("Can't put file to Dropbox. File is not defined.");
+        callback();
     }
 };
 
