@@ -113,18 +113,18 @@ function addItem(item, file, successful, failure) {
 }
 
 function updateItem(item, file, successful, failure) {
-    var id = req.params.id;
-    var item = req.body;
+    var id = item._id;
+    delete item._id;
     console.log('Updating item: ' + id);
     console.log(JSON.stringify(item));
     db.collection(collectionName, function (err, collection) {
         collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
             if (err) {
-                console.log('Error updating wine: ' + err);
-                res.send({'error': 'An error has occurred'});
+                console.log('Error during updating: ' + err);
+                failure();
             } else {
                 console.log('' + result + ' document(s) updated');
-                res.send(item);
+                successful(item);
             }
         });
     });

@@ -30,7 +30,7 @@ app.post('/user/logout', auth.logout);
 app.get('/items', item.getAllItemsByType);
 app.get('/items/:id', item.findItemById);
 app.post('/items', auth.checkAuth, item.addOrUpdateItem);
-app.put('/items/:id', auth.checkAuth, item.updateItem);
+//app.put('/items/:id', auth.checkAuth, item.updateItem);
 app.delete('/items/:id', /*auth.checkAuth,*/ item.deleteItem);
 app.get('/images/:path', dbox.getFile);
 
