@@ -31,10 +31,10 @@ angular.module('store.services').service('storeItems', function ($http) {
 
 
     /**
-     * Add new item.
+     * Add or update new item.
      * @param callback
      */
-    var addItem = function (objectToStore, fileToStore, callback) {
+    var addOrUpdateItem = function (objectToStore, fileToStore, callback) {
         $http({
             method: 'POST',
             url: "/items",
@@ -74,7 +74,7 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Update current item.
      * @param callback
      */
-    var updateItem = function (callback) {
+    var updateItem = function (objectToStore, fileToStore, callback) {
 
     };
 
@@ -94,7 +94,7 @@ angular.module('store.services').service('storeItems', function ($http) {
     return {
         getAllItemsByType: getAllItemsByType,
         findItemById: findItemById,
-        addItem: addItem,
+        addOrUpdateItem: addOrUpdateItem,
         updateItem: updateItem,
         deleteItem: deleteItem
     };
