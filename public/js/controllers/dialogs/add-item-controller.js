@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AddItemController', function ($scope, $modalInstance, $http, $route, items, storeItems) {
+    .controller('AddItemController', function ($scope, $modalInstance, $http, $route, selected, storeItems) {
 
         $scope.downloadSize = "Предпочтительный размер изображения: 20-50 КБ";
 
@@ -15,16 +15,26 @@ angular.module('store.controllers')
 
         $scope.newItem = {};
 
-        $scope.items = items;
-        $scope.selected = {
-            item: $scope.items[0]
-        };
+        if (selected) {
+            storeItems.findItemById(selected, function (data) {
+                $scope.selectedItem = data;
+                $scope.newItem._id = data._id;
+                $scope.newItem.name = data.name;
+                $scope.newItem.description = data.description;
+                $scope.newItem.price = data.price;
+                $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
+            });
+        }
+//        $scope.selectedItem = selectedItem;
+//        $scope.selected = {
+//            item: null
+//        };
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
-            storeItems.addItem($scope.newItem, $scope.uploadedFile, function () {
+            storeItems.addOrUpdateItem($scope.newItem, $scope.uploadedFile, function () {
                 $route.reload();
-                $modalInstance.close($scope.selected.item);
+                $modalInstance.close(/*$scope.selected.item*/);
             });
         };
 
