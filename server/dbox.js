@@ -24,7 +24,6 @@ exports.deleteFile = function (fileName, callback) {
     client.rm(fileName, function (e, data) {
         if ((e !== 200) && (e !== 404)) {
             console.log("Can't delete file.");
-            throw e;
         }
         callback();
     });
