@@ -119,7 +119,7 @@ function updateItem(item, file, successful, failure) {
     console.log('Updating item: ' + id);
     console.log(JSON.stringify(item));
     db.collection(collectionName, function (err, collection) {
-        item.image = file ? encode_utf8(id) + ".jpg" : "placeholder.jpg";
+        item.image = file ? encode_utf8(id) + ".jpg" : item.image;
         collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
             if (err) {
                 console.log('Error during updating: ' + err);
