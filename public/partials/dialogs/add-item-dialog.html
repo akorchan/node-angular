@@ -52,17 +52,12 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Добавить изображение</label>
-                <input type="file" accept="image/*" file-upload>
+            <div class="form-group" ng-repeat="file in files" ng-class="{green: file.image}">
+                <label ng-hide="file.name">Добавить новое изображение</label>
+                <label ng-show="file.name">{{ file.name }}</label>
+                <input type="file" accept="image/*" ng-hide="file.name" file-upload>
 
-                <p class="help-block">{{ downloadSize }}</p>
-            </div>
-            <div class="form-group" ng-repeat="file in files">
-                <label>Добавить изображение</label>
-                <input type="file" accept="image/*" file-upload>
-
-                <p class="help-block">{{ downloadSize }}</p>
+                <p class="help-block" ng-hide="file.name">Предпочтительный размер изображения: 20-50 КБ</p>
             </div>
         </div>
         <div class="modal-footer">
