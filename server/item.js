@@ -60,7 +60,8 @@ exports.findItemById = function (req, res) {
 exports.addOrUpdateItem = function (req, res) {
     var item = JSON.parse(req.body.object);
     item.date = new Date().getTime();
-    var file = req.files.file;
+    var files = req.files;
+    var file = files[0]; //temporary
     if (item._id) {
         updateItem(item, file,
             function (createdItem) {

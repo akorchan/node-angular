@@ -8,11 +8,19 @@ angular.module('store.controllers')
 
         $scope.files = [];
 
+        function addEmptyFileSelector() {
+            var file = {};
+            $scope.files.push(file);
+        }
+
+        addEmptyFileSelector();
+
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
-                $scope.uploadedFile = args.file;
-                $scope.downloadSize = "Размер загруженного изображения " + (args.file.size / 1024).toFixed(0) + " КБ";
-                $scope.files.push(args.file);
+                var file = $scope.files[$scope.files.length - 1];
+                file.image = args.file;
+                file.name = args.file.name + " (" + (args.file.size / 1024).toFixed(0) + " КБ)";
+                addEmptyFileSelector();
             });
         });
 
@@ -38,7 +46,9 @@ angular.module('store.controllers')
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
-            storeItems.addOrUpdateItem($scope.newItem, $scope.uploadedFile, function () {
+            storeItems.addOrUpdateItem($scope.newItem, $scope.files.map(function (file) {
+                return file.image;
+            }), function () {
                 $route.reload();
                 $modalInstance.close(/*$scope.selected.item*/);
             });
