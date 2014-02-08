@@ -171,7 +171,7 @@ textarea {
     background-image: -o-linear-gradient(top, #0088cc, #0077b3);
     background-image: linear-gradient(to bottom, #0088cc, #0077b3);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ff0088cc', endColorstr = '#ff0077b3', GradientType = 0);
 }
 
 .text-on-main-page:first-letter {
@@ -205,5 +205,26 @@ textarea {
 
 .navbar-link:hover {
     text-decoration: none;
+}
+
+div.delete-image {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+div.delete-image:hover:before {
+    content: "";
+    display: block;
+    background: rgba(255, 255, 255, .5);
+    background-image: url('/public/images/trash.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 

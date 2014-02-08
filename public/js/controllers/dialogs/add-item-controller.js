@@ -6,14 +6,19 @@ angular.module('store.controllers')
 
         $scope.downloadSize = "Предпочтительный размер изображения: 20-50 КБ";
 
+        $scope.files = [];
+
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
                 $scope.uploadedFile = args.file;
                 $scope.downloadSize = "Размер загруженного изображения " + (args.file.size / 1024).toFixed(0) + " КБ";
+                $scope.files.push(args.file);
             });
         });
 
         $scope.newItem = {};
+
+        $scope.isEdit = typeof selected !== "undefined";
 
         if (selected) {
             storeItems.findItemById(selected, function (data) {
