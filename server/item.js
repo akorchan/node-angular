@@ -71,7 +71,7 @@ exports.addOrUpdateItem = function (req, res) {
                 res.send({'error': 'An error has occurred'});
             });
     } else {
-        addItem(item, file,
+        addItem(item, files,
             function (createdItem) {
                 res.send(createdItem);
             },
@@ -82,36 +82,64 @@ exports.addOrUpdateItem = function (req, res) {
 
 };
 
-function addItem(item, file, successful, failure) {
+function addItem(item, files, successful, failure) {
     db.collection(collectionName, function (err, collection) {
-        collection.insert(item, {safe: true}, function (err, result) {
-                if (err) {
-                    failure();
-                } else {
-                    console.log('Success: ' + JSON.stringify(result[0]));
-                    result[0].image = file ? encode_utf8(result[0]._id) + ".jpg" : "placeholder.jpg";
-                    collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
-                            if (err) {
-                                console.log('Error updating item: ' + err);
-                                failure();
-                            } else {
-                                console.log('' + result + ' document(s) updated');
-                                //in case of local storage
+            collection.insert(item, {safe: true}, function (err, result) {
+                    if (err) {
+                        failure();
+                    } else {
+                        console.log('Success: ' + JSON.stringify(result[0]));
+//                    var imagesArray = [];
+                        for (var i in files) {
+//                        var image = {};
+                            var imageIndex = i === "file0" ? "" : "_" + i.substring(4);
+                            files[i].name = encode_utf8(result[0]._id) + imageIndex + ".jpg";
+//                        image.file = files[i];
+                            result[0]["image" + imageIndex] = files[i];
+//                        imagesArray.push(image);
+                        }
+                        if (typeof  result[0].image === "undefined") {
+                            result[0].image = "placeholder.jpg";
+                        }
+                        collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
+                                if (err) {
+                                    console.log('Error updating item: ' + err);
+                                    failure();
+                                } else {
+                                    console.log('' + result + ' document(s) updated');
+                                    //in case of local storage
 //                                saveFileToStore(file, item.image, function () {
 //                                    res.send(result[0]);
 //                                });
-                                dbox.addFile(file, item.image, function () {
-                                    successful(result[0]);
-                                });
+                                    for (var key in item) {
+                                        if ((key.indexOf("image") == 0) && (item.hasOwnProperty(key))) {
+                                            var findInFiles = function () {
+                                                for (var i in files)
+                                                    if (files[i].name == item[key].name)
+                                                        return files[i];
+                                                return null;
+                                            }
+                                            var image = findInFiles();
+                                            if (image) {
+                                                dbox.addFile(image, image.name, function () {
+                                                    successful(result[0]);
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+//
+//                                for (var i in imagesArray) {
+//
+//                                }
+
                             }
-                        }
-                    )
-                    ;
+                        );
+                    }
                 }
-            }
-        )
-        ;
-    });
+            );
+        }
+    );
 }
 
 function updateItem(item, file, successful, failure) {
