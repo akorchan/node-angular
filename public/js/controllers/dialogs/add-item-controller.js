@@ -35,6 +35,10 @@ angular.module('store.controllers')
                 $scope.newItem.name = data.name;
                 $scope.newItem.description = data.description;
                 $scope.newItem.price = data.price;
+                $scope.newItem.images = [];
+                for (var key in data)
+                    if ((key.indexOf("image") == 0) && (data.hasOwnProperty(key)))
+                        $scope.newItem.images.push(data[key]);
                 $scope.newItem.image = data.image;
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
