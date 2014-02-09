@@ -193,6 +193,9 @@ textarea {
 .thumbnail {
     background-image: url('/public/items-images/placeholder.jpg');
     background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .navbar-link {

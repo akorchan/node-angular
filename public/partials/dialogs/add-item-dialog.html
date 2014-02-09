@@ -39,6 +39,9 @@
             <div class="form-group" ng-repeat="file in files" ng-class="{green: file.image}">
                 <label ng-hide="file.name">Добавить новое изображение</label>
                 <label ng-show="file.name">{{ file.name }}</label>
+                <button type="button" ng-show="file.name" class="btn btn-sm btn-danger"
+                        ng-click="removeNewlyAddedImage(file.id)">Удалить
+                </button>
                 <input type="file" accept="image/*" ng-hide="file.name" file-upload>
 
                 <p class="help-block" ng-hide="file.name">Предпочтительный размер изображения: 20-50 КБ</p>

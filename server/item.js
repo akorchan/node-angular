@@ -89,14 +89,10 @@ function addItem(item, files, successful, failure) {
                         failure();
                     } else {
                         console.log('Success: ' + JSON.stringify(result[0]));
-//                    var imagesArray = [];
                         for (var i in files) {
-//                        var image = {};
                             var imageIndex = i === "file0" ? "" : "_" + i.substring(4);
                             files[i].name = encode_utf8(result[0]._id) + imageIndex + ".jpg";
-//                        image.file = files[i];
-                            result[0]["image" + imageIndex] = files[i];
-//                        imagesArray.push(image);
+                            result[0]["image" + imageIndex] = files[i].name;
                         }
                         if (typeof  result[0].image === "undefined") {
                             result[0].image = "placeholder.jpg";
@@ -115,7 +111,7 @@ function addItem(item, files, successful, failure) {
                                         if ((key.indexOf("image") == 0) && (item.hasOwnProperty(key))) {
                                             var findInFiles = function () {
                                                 for (var i in files)
-                                                    if (files[i].name == item[key].name)
+                                                    if (files[i].name == item[key])
                                                         return files[i];
                                                 return null;
                                             }
@@ -128,11 +124,6 @@ function addItem(item, files, successful, failure) {
                                         }
                                     }
                                 }
-//
-//                                for (var i in imagesArray) {
-//
-//                                }
-
                             }
                         );
                     }
@@ -193,20 +184,29 @@ function saveFileToStore(fileToSave, fileName, callback) {
 
 exports.deleteItem = function (req, res) {
     var id = req.params.id;
-//    var filePath = "./public/items-images/" + id + ".jpg";
-    var removeFromDB = function () {
-        db.collection(collectionName, function (err, collection) {
-            collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
-                if (err) {
-                    res.send({'error': 'An error has occurred - ' + err});
-                } else {
-                    console.log('' + result + ' document(s) deleted');
-                    res.send(req.body);
+    db.collection(collectionName, function (err, collection) {
+        collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, item) {
+            for (var key in item) {
+                if ((key.indexOf("image") == 0) && (item.hasOwnProperty(key))) {
+                    dbox.deleteFile(item[key], function () {
+                    });
                 }
+            }
+            db.collection(collectionName, function (err, collection) {
+                collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
+                    if (err) {
+                        res.send({'error': 'An error has occurred - ' + err});
+                    } else {
+                        console.log('' + result + ' document(s) deleted');
+                        res.send(req.body);
+                    }
+                });
             });
+
         });
-    };
-    dbox.deleteFile(id + ".jpg", removeFromDB);
+    });
+//    var filePath = "./public/items-images/" + id + ".jpg";
+
 //    if (!path.existsSync(filePath)) {
 //        removeFromDB();
 //    } else {

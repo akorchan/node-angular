@@ -20,6 +20,7 @@ angular.module('store.controllers')
                 var file = $scope.files[$scope.files.length - 1];
                 file.image = args.file;
                 file.name = args.file.name + " (" + (args.file.size / 1024).toFixed(0) + " КБ)";
+                file.id = $scope.files.length - 1;
                 addEmptyFileSelector();
             });
         });
@@ -60,6 +61,13 @@ angular.module('store.controllers')
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
+        };
+
+        $scope.removeNewlyAddedImage = function (id) {
+            $scope.files = $scope.files.filter(function (element) {
+                return element.id !== id;
+            });
+
         };
 
         $scope.listOfTypes = [
