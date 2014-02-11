@@ -37,10 +37,12 @@ angular.module('store.controllers')
                 $scope.newItem.description = data.description;
                 $scope.newItem.price = data.price;
                 $scope.newItem.images = [];
-                for (var key in data)
-                    if ((key.indexOf("image") == 0) && (data.hasOwnProperty(key)))
+                for (var key in data) {
+                    if ((key.indexOf("image") == 0) && (data.hasOwnProperty(key))) {
                         $scope.newItem.images.push(data[key]);
-                $scope.newItem.image = data.image;
+                        $scope.newItem[key] = data[key];
+                    }
+                }
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
         }
@@ -51,12 +53,18 @@ angular.module('store.controllers')
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
-            storeItems.addOrUpdateItem($scope.newItem, $scope.files.map(function (file) {
-                return file.image;
-            }), function () {
-                $route.reload();
-                $modalInstance.close(/*$scope.selected.item*/);
-            });
+            delete $scope.newItem.images;
+            storeItems.addOrUpdateItem($scope.newItem,
+                $scope.files.
+                    map(function (file) {
+                        return file.image;
+                    }).filter(function (element) {
+                        return typeof element !== "undefined"
+                    }),
+                function () {
+                    $route.reload();
+                    $modalInstance.close(/*$scope.selected.item*/);
+                });
         };
 
         $scope.cancel = function () {
@@ -68,6 +76,18 @@ angular.module('store.controllers')
                 return element.id !== id;
             });
 
+        };
+
+        $scope.removeExistedImage = function (id) {
+            $scope.newItem.images = $scope.newItem.images.filter(function (element) {
+                return element !== id;
+            });
+            for (var key in $scope.newItem) {
+                if ((key.indexOf("image") == 0) && ($scope.newItem.hasOwnProperty(key)) && ($scope.newItem[key] === id)) {
+                    delete $scope.newItem[key];
+                }
+            }
+            console.log("asd");
         };
 
         $scope.listOfTypes = [

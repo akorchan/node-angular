@@ -26,12 +26,13 @@
                         ng-change="groupChanged()"></select>
             </div>
 
-            <div class="form-group" ng-show="isEdit">
+            <div class="form-group" ng-show="isEdit && (newItem.images.length > 0)">
                 <label>Изображения</label>
                 <br/>
 
-                <div ng-repeat="image in newItem.images" class="delete-image">
-                    <img src="http://buona-italia.herokuapp.com/images/{{ image.name }}"
+                <div ng-repeat="image in newItem.images" class="delete-image"
+                     ng-click="removeExistedImage('{{ image }}')">
+                    <img src="http://buona-italia.herokuapp.com/images/{{ image }}"
                          class="thumbnail img-responsive"
                          style="width: 80px; height: 80px; float:left;">
                 </div>
