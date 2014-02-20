@@ -44,7 +44,7 @@ angular.module('store.services').service('storeItems', function ($http) {
      * Add or update new item.
      * @param callback
      */
-    var addOrUpdateItem = function (objectToStore, fileToStore, callback) {
+    var addOrUpdateItem = function (objectToStore, filesToStore, callback) {
         $http({
             method: 'POST',
             url: "/items",
@@ -65,12 +65,15 @@ angular.module('store.services').service('storeItems', function ($http) {
                 // in the value '[Object object]' on the server.
                 formData.append("object", angular.toJson(data.object));
                 //now add all of the assigned files
-                formData.append("file", data.file);
+                for (var i in data.files) {
+                    //add each file to the form data and iteratively name them
+                    formData.append("file" + i, data.files[i]);
+                }
                 return formData;
             },
             //Create an object that contains the model and files which will be transformed
             // in the above transformRequest method
-            data: { object: objectToStore, file: fileToStore }
+            data: { object: objectToStore, files: filesToStore }
         }).
             success(function (data, status, headers, config) {
                 callback();

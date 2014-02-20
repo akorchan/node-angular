@@ -17,8 +17,8 @@
         </thead>
         <tbody>
         <tr ng-repeat="item in items">
-            <td>{{ $index + 1}} .</td>
-            <td><img src="http://buona-italia.herokuapp.com/images/{{ item.image }}" class="thumbnail"
+            <td>{{ $index + 1}}.</td>
+            <td><img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}" class="thumbnail"
                      style="width: 100px;"/></td>
             <td style="vertical-align: middle;">{{ item.name }}</td>
             <td style="vertical-align: middle;">{{ item.price }} грн.</td>

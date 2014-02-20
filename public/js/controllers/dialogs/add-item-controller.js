@@ -6,14 +6,28 @@ angular.module('store.controllers')
 
         $scope.downloadSize = "Предпочтительный размер изображения: 20-50 КБ";
 
+        $scope.files = [];
+
+        function addEmptyFileSelector() {
+            var file = {};
+            $scope.files.push(file);
+        }
+
+        addEmptyFileSelector();
+
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
-                $scope.uploadedFile = args.file;
-                $scope.downloadSize = "Размер загруженного изображения " + (args.file.size / 1024).toFixed(0) + " КБ";
+                var file = $scope.files[$scope.files.length - 1];
+                file.image = args.file;
+                file.name = args.file.name + " (" + (args.file.size / 1024).toFixed(0) + " КБ)";
+                file.id = $scope.files.length - 1;
+                addEmptyFileSelector();
             });
         });
 
         $scope.newItem = {};
+
+        $scope.isEdit = typeof selected !== "undefined";
 
         if (selected) {
             storeItems.findItemById(selected, function (data) {
@@ -22,7 +36,7 @@ angular.module('store.controllers')
                 $scope.newItem.name = data.name;
                 $scope.newItem.description = data.description;
                 $scope.newItem.price = data.price;
-                $scope.newItem.image = data.image;
+                $scope.newItem.images = data.images;
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
         }
@@ -33,14 +47,34 @@ angular.module('store.controllers')
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
-            storeItems.addOrUpdateItem($scope.newItem, $scope.uploadedFile, function () {
-                $route.reload();
-                $modalInstance.close(/*$scope.selected.item*/);
-            });
+            storeItems.addOrUpdateItem($scope.newItem,
+                $scope.files.
+                    map(function (file) {
+                        return file.image;
+                    }).filter(function (element) {
+                        return typeof element !== "undefined"
+                    }),
+                function () {
+                    $route.reload();
+                    $modalInstance.close(/*$scope.selected.item*/);
+                });
         };
 
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
+        };
+
+        $scope.removeNewlyAddedImage = function (id) {
+            $scope.files = $scope.files.filter(function (element) {
+                return element.id !== id;
+            });
+
+        };
+
+        $scope.removeExistedImage = function (id) {
+            $scope.newItem.images = $scope.newItem.images.filter(function (element) {
+                return element !== id;
+            });
         };
 
         $scope.listOfTypes = [
