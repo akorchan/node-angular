@@ -4,6 +4,7 @@ var mongo = require('mongodb');
 var fs = require('fs');
 var path = require('path');
 var dbox = require('./dbox');
+var uuid = require('node-uuid');
 
 var Server = mongo.Server;
 var Db = mongo.Db;
@@ -17,7 +18,6 @@ var db = new Db(databaseName, server);
 
 db.open(function (err, db) {
     //authentication process
-
     db.authenticate('buona', 'buona', function (err, result) {
         if (!result) {
             db.close();
@@ -25,14 +25,12 @@ db.open(function (err, db) {
     });
     if (!err) {
         console.log("Connected to '" + databaseName + "' database");
-//        db.collection(collectionName, {strict: true}, function (err, collection) {
-//            if (err) {
-//                console.log("The '" + collectionName + "' collection doesn't exist. Creating it with sample data...");
-//                populateDB();
-//            }
-//        });
     }
 });
+
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
 
 exports.getAllItemsByType = function (req, res) {
     var condition = {};
@@ -61,9 +59,8 @@ exports.addOrUpdateItem = function (req, res) {
     var item = JSON.parse(req.body.object);
     item.date = new Date().getTime();
     var files = req.files;
-    var file = files[0]; //temporary
     if (item._id) {
-        updateItem(item, file,
+        updateItem(item, files,
             function (createdItem) {
                 res.send(createdItem);
             },
@@ -89,13 +86,10 @@ function addItem(item, files, successful, failure) {
                         failure();
                     } else {
                         console.log('Success: ' + JSON.stringify(result[0]));
+                        result[0].images = [];
                         for (var i in files) {
-                            var imageIndex = i === "file0" ? "" : "_" + i.substring(4);
-                            files[i].name = encode_utf8(result[0]._id) + imageIndex + ".jpg";
-                            result[0]["image" + imageIndex] = files[i].name;
-                        }
-                        if (typeof  result[0].image === "undefined") {
-                            result[0].image = "placeholder.jpg";
+                            files[i].name = encode_utf8(result[0]._id) + "_" + uuid.v1() + ".jpg";
+                            result[0].images.push(files[i].name);
                         }
                         collection.update({'_id': new BSON.ObjectID(encode_utf8(result[0]._id))}, result[0], {safe: true}, function (err, result) {
                                 if (err) {
@@ -103,26 +97,16 @@ function addItem(item, files, successful, failure) {
                                     failure();
                                 } else {
                                     console.log('' + result + ' document(s) updated');
-                                    //in case of local storage
-//                                saveFileToStore(file, item.image, function () {
-//                                    res.send(result[0]);
-//                                });
-                                    for (var key in item) {
-                                        if ((key.indexOf("image") == 0) && (item.hasOwnProperty(key))) {
-                                            var findInFiles = function () {
-                                                for (var i in files)
-                                                    if (files[i].name == item[key])
-                                                        return files[i];
-                                                return null;
-                                            }
-                                            var image = findInFiles();
-                                            if (image) {
-                                                dbox.addFile(image, image.name, function () {
-                                                    successful(result[0]);
+                                    for (var file in files) {
+                                        for (var image in item.images) {
+                                            if (item.images[image] === files[file].name) {
+                                                dbox.addFile(files[file], files[file].name, function () {
+                                                    //do nothing
                                                 });
                                             }
                                         }
                                     }
+                                    successful(result[0]);
                                 }
                             }
                         );
@@ -133,64 +117,65 @@ function addItem(item, files, successful, failure) {
     );
 }
 
-function updateItem(item, file, successful, failure) {
+function updateItem(item, files, successful, failure) {
     var id = item._id;
     delete item._id;
     console.log('Updating item: ' + id);
     console.log(JSON.stringify(item));
-    db.collection(collectionName, function (err, collection) {
-        item.image = file ? encode_utf8(id) + ".jpg" : item.image;
-        collection.update({'_id': new BSON.ObjectID(id)}, item, {safe: true}, function (err, result) {
-            if (err) {
-                console.log('Error during updating: ' + err);
-                failure();
-            } else {
-                console.log('' + result + ' document(s) updated');
-                if (file) {
-                    dbox.deleteFile(id + ".jpg", function () {
-                        dbox.addFile(file, item.image, function () {
-                            successful(result[0]);
-                        });
-                    });
-                } else {
-                    successful(result[0]);
-                }
+    var updateProcess = function (updatedItem, filesToDelete, newFiles) {
+        db.collection(collectionName, function (err, collection) {
+            for (var i in newFiles) {
+                var newFileName = id.toString() + "_" + uuid.v1() + ".jpg";
+                updatedItem.images.push(newFileName);
+                newFiles[i].imageName = newFileName;
             }
-        });
-    });
-}
-
-function encode_utf8(s) {
-    return unescape(encodeURIComponent(s));
-}
-
-// in case of local storage
-function saveFileToStore(fileToSave, fileName, callback) {
-    if (fileToSave) {
-        fs.readFile(fileToSave.path, function (err, data) {
-            var newPath = './public/items-images/' + fileName;
-            fs.writeFile(newPath, data, function (err) {
+            collection.update({'_id': new BSON.ObjectID(id)}, updatedItem, {safe: true}, function (err, result) {
                 if (err) {
-                    console.log("error during file saving");
+                    console.log('Error during updating: ' + err);
+                    failure();
                 } else {
-                    callback();
+                    console.log('' + result + ' document(s) updated');
+                    for (var i in filesToDelete) {
+                        dbox.deleteFile(filesToDelete[i], function () {
+                            //potentially should be sync
+                        });
+                    }
+                    for (var i in newFiles) {
+                        dbox.addFile(newFiles[i], newFiles[i].imageName, function () {
+                            //potentially should be sync
+                        });
+                    }
+                    successful(result[0]);
                 }
             });
         });
-    } else {
-        callback();
+    };
+    db.collection(collectionName, function (err, collection) {
+        collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, oldItem) {
+            var imagesToDelete = findImagesToDelete(oldItem, item);
+            updateProcess(item, imagesToDelete, files);
+        });
+    });
+
+}
+
+function findImagesToDelete(originalObject, newObject) {
+    var imagesToDelete = [];
+    for (var i in originalObject.images) {
+        if (newObject.images.indexOf(originalObject.images[i]) === -1) {
+            imagesToDelete.push(originalObject.images[i])
+        }
     }
+    return imagesToDelete;
 }
 
 exports.deleteItem = function (req, res) {
     var id = req.params.id;
     db.collection(collectionName, function (err, collection) {
         collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, item) {
-            for (var key in item) {
-                if ((key.indexOf("image") == 0) && (item.hasOwnProperty(key))) {
-                    dbox.deleteFile(item[key], function () {
-                    });
-                }
+            for (var key in item.images) {
+                dbox.deleteFile(item.images[key], function () {
+                });
             }
             db.collection(collectionName, function (err, collection) {
                 collection.remove({'_id': new BSON.ObjectID(id)}, {safe: true}, function (err, result) {
@@ -203,75 +188,6 @@ exports.deleteItem = function (req, res) {
                 });
             });
 
-        });
-    });
-//    var filePath = "./public/items-images/" + id + ".jpg";
-
-//    if (!path.existsSync(filePath)) {
-//        removeFromDB();
-//    } else {
-//        fs.unlink(filePath, function (err) {
-//            if (err)
-//                throw err;
-//            removeFromDB();
-//        });
-//    }
-
-
-};
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-// Populate database with sample data -- Only used once: the first time the application is started.
-// You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function () {
-
-    var items = [
-        {
-            name: "Тунец в собственном соку Mareblu Weight Watchers tonno al naturale",
-            code: "02-03-006",
-            description: "Тунец в собственном соку, жир-0,6%. Идеален для тех, кто любит легкие продукты и хочет остаться в форме, не пропускайте хорошего вкуса за едой. Без консервантов.",
-            price: "22",
-            image: "1.jpg"
-        },
-        {
-            name: "Тунец RIO MARE в оливковом масле Tonno all`olio di Oliva",
-            code: "07-01-006",
-            description: "Тунец в оливковом масле.Тонкий аромат тунца и оливкового масла. Не содержит консервантов или искусственных приправ. Здоровая, и полезная еда, богатая фосфористыми, легко усваемыми белками и ненасыщенными жирными кислотами (которые помогают бороться с холестерином).",
-            price: "22",
-            image: "2.jpg"
-        },
-        {
-            name: "Каперсы Coelsanus Zero-aceto capperi",
-            code: "09-03-016",
-            description: "Каперсы  без уксуса. Каперсы могут быть использованными на кухне для приготовлении пиццы, как приправа для первых блюд, для мяса и рыбы, а также разнообразных соусов.",
-            price: "45",
-            image: "3.jpg"
-        },
-        {
-            name: "Артишоки в рассолое Sacla",
-            code: "09-03-003",
-            description: "За 60 лет SACLÀ заслуженно заработала репутацию лидера в производстве итальянских традиционных продуктов питания премиум класса. Артишоки  Sacla Sottoli в оливковом рассоле с натуральными травами. Прекрасное дополнение к разнообразным блюдам Итальянской кухни.  На Сицилии утверждают, что регулярное употребление артишоков омолаживает. А еще артишоки эффективно выводят лишний холестерин из печени и снимают отечность.",
-            price: "69",
-            image: "4.jpg"
-        },
-        {
-            name: "Перец фаршированный тунцом",
-            code: "09-03-008",
-            description: "Если возникла необходимость купить в Украине деликатес высокого качества, то совершенно правильным выбором является  Перец фаршированный тунцом. Изысканное сочетание ингредиентов придется по вкусу самым искушенным гурманам,  которых трудно чем-либо удивить. Гамма вкуса уникальна, она позволит вам оказаться в удивительной стране, проникнуться атмосферой роскоши и непринужденности. Данный деликатесный продукт доказывает своим существованием, что кулинария – это настоящее искусство и праздник не только для желудка, но и для души.",
-            price: "55",
-            image: "5.jpg"
-        },
-        {
-            name: "Салат с тунцом INSALATONNO Mais e Piselli",
-            code: "09-01-011",
-            description: "",
-            price: "49",
-            image: "6.jpg"
-        }
-    ];
-
-    db.collection(collectionName, function (err, collection) {
-        collection.insert(items, {safe: true}, function (err, result) {
         });
     });
 
