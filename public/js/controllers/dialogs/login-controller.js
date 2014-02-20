@@ -7,7 +7,8 @@ angular.module('store.controllers')
         $scope.user = {};
 
         $scope.ok = function () {
-            LoginService.login($scope.user.name, $scope.user.password, function(data) {
+            LoginService.login($scope.user.name, $scope.user.password, function (data) {
+//            LoginService.login("admin", "admin", function(data) {
                 if (data === "login") {
                     $location.path('/admin');
                 }
