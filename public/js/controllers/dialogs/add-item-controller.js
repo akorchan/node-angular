@@ -36,13 +36,7 @@ angular.module('store.controllers')
                 $scope.newItem.name = data.name;
                 $scope.newItem.description = data.description;
                 $scope.newItem.price = data.price;
-                $scope.newItem.images = [];
-                for (var key in data) {
-                    if ((key.indexOf("image") == 0) && (data.hasOwnProperty(key))) {
-                        $scope.newItem.images.push(data[key]);
-                        $scope.newItem[key] = data[key];
-                    }
-                }
+                $scope.newItem.images = data.images;
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
         }
@@ -53,7 +47,6 @@ angular.module('store.controllers')
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
-            delete $scope.newItem.images;
             storeItems.addOrUpdateItem($scope.newItem,
                 $scope.files.
                     map(function (file) {
@@ -82,12 +75,6 @@ angular.module('store.controllers')
             $scope.newItem.images = $scope.newItem.images.filter(function (element) {
                 return element !== id;
             });
-            for (var key in $scope.newItem) {
-                if ((key.indexOf("image") == 0) && ($scope.newItem.hasOwnProperty(key)) && ($scope.newItem[key] === id)) {
-                    delete $scope.newItem[key];
-                }
-            }
-            console.log("asd");
         };
 
         $scope.listOfTypes = [
