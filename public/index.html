@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="/public/css/vendor/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <title>My Italy - лучшие продукты из Италии</title>
 </head>
 <body ng-app="store">
 <div id="wrap">
@@ -45,7 +46,7 @@
                     </li>
                     <!--<a href="#/store" class="btn">Главная</a></li>-->
                     <li class="pagekey_COOK"><a href="#/cook" class="btn">Готовим вместе</a></li>
-                    <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Как заказать</a></li>
+                    <li class="pagekey_HOWTO"><a href="#/howto" class="btn">Доставка и оплата</a></li>
                     <li class="pagekey_ADMIN" ng-show="login.isLoggedIn"><a href="#/admin"
                                                                             class="btn">Администрирование</a></li>
                 </ul>
@@ -59,8 +60,19 @@
 </div>
 
 <div id="footer">
-    <div class="container">
-        <p class="text-muted credit pull-right">Some text in footer</p>
+    <div class="container pull-right" style="padding: 4px 30px 0 0;">
+        <div style="float: left;">
+            <p class="text-muted">
+                Наши телефоны:<br/>
+            </p>
+        </div>
+        <div style="width:340px; padding-left: 120px;">
+            <div class="highlight-phones"><p class="text-muted  phones-in-footer">+38 (095) 339-31-13 (МТС) </p></div>
+
+            <div class="highlight-phones"><p class="text-muted phones-in-footer">+38 (067) 855-80-82 (Киевстар)</p>
+            </div>
+        </div>
+
     </div>
 </div>
 

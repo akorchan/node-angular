@@ -12,10 +12,14 @@
     font-weight: normal;
 }
 
-html,
+/* The html and body elements cannot have any padding or margin. */
+html {
+    height: 100%;
+}
+
 body {
     height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
+    overflow-y: scroll;
 }
 
 .main-content {
@@ -27,29 +31,27 @@ body {
     min-height: 100%;
     height: auto !important;
     /* Negative indent footer by its height */
-    margin: 0 auto -40px;
+    margin: 0 auto -47px;
     /* Pad bottom by footer height */
     padding: 0 0 60px;
 
     background-image: url('/public/images/background.jpg');
-    background-attachment: fixed;
-    background-position: center;
+    /*background-position: center;*/
     background-size: 100%;
+    /*background-attachment: scroll;*/
 }
 
 /* Set the fixed height of the footer here */
 #footer {
-    height: 40px;
+    height: 47px;
     background-color: #222222;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 /*.modal-dialog {*/
 /*width: 600px;*/
 /*}*/
-
-.thumbnail {
-    margin: 0 auto;
-}
 
 .item-name {
     height: 130px;
@@ -171,7 +173,7 @@ textarea {
     background-image: -o-linear-gradient(top, #0088cc, #0077b3);
     background-image: linear-gradient(to bottom, #0088cc, #0077b3);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ff0088cc', endColorstr = '#ff0077b3', GradientType = 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
 }
 
 .text-on-main-page:first-letter {
@@ -191,11 +193,13 @@ textarea {
 }
 
 .thumbnail {
-    background-image: url('/public/items-images/placeholder.jpg');
-    background-size: 100%;
+    background-image: url('/public/items-images/placeholder.gif');
+    background-size: 90%;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    margin: 0 auto;
+    min-height: 50px;
+    min-width: 50px;
 }
 
 .navbar-link {
@@ -231,3 +235,24 @@ div.delete-image:hover:before {
     right: 0;
 }
 
+.phones-in-footer {
+    padding-left: 10px;
+    margin-bottom: 0;
+}
+
+p.phones-in-footer:hover {
+    color: white;
+}
+
+div.highlight-phones:hover {
+    background-color: #000000;
+}
+
+.recipe {
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 20px;
+    border: 1px dashed rgb(123, 120, 111);
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+}
