@@ -53,10 +53,6 @@ body {
 /*width: 600px;*/
 /*}*/
 
-.thumbnail {
-    margin: 0 auto;
-}
-
 .item-name {
     height: 130px;
 }
@@ -197,11 +193,13 @@ textarea {
 }
 
 .thumbnail {
-    background-image: url('/public/items-images/placeholder.jpg');
-    background-size: 100%;
+    background-image: url('/public/items-images/placeholder.gif');
+    background-size: 90%;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 100%;
+    margin: 0 auto;
+    min-height: 50px;
+    min-width: 50px;
 }
 
 .navbar-link {
@@ -248,4 +246,13 @@ p.phones-in-footer:hover {
 
 div.highlight-phones:hover {
     background-color: #000000;
+}
+
+.recipe {
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 20px;
+    border: 1px dashed rgb(123, 120, 111);
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
 }
