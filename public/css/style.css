@@ -31,7 +31,7 @@ body {
     min-height: 100%;
     height: auto !important;
     /* Negative indent footer by its height */
-    margin: 0 auto -40px;
+    margin: 0 auto -47px;
     /* Pad bottom by footer height */
     padding: 0 0 60px;
 
@@ -43,8 +43,10 @@ body {
 
 /* Set the fixed height of the footer here */
 #footer {
-    height: 40px;
+    height: 47px;
     background-color: #222222;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 /*.modal-dialog {*/
@@ -235,3 +237,15 @@ div.delete-image:hover:before {
     right: 0;
 }
 
+.phones-in-footer {
+    padding-left: 10px;
+    margin-bottom: 0;
+}
+
+p.phones-in-footer:hover {
+    color: white;
+}
+
+div.highlight-phones:hover {
+    background-color: #000000;
+}
