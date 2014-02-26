@@ -9,7 +9,7 @@ function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
 }
 
-exports.putVisitorsInfo = function (trackId) {
+exports.putVisitorsInfo = function (trackId, address) {
     if (typeof trackId === "undefined") {
         return;
     }
@@ -24,6 +24,9 @@ exports.putVisitorsInfo = function (trackId) {
                 if (currentDate - user.lastVisitDate > 3600000) {
                     user.lastVisitDate = currentDate;
                     user.visitsCount += 1;
+                    if (user.addresses.indexOf(address) === -1) {
+                        user.addresses.push(address);
+                    }
                     collection.update({'_id': new BSON.ObjectID(encode_utf8(user._id))}, user, {safe: true}, function (err, result) {
                             if (err) {
                                 // do nothing
@@ -37,6 +40,8 @@ exports.putVisitorsInfo = function (trackId) {
                 user.trackId = trackId;
                 user.lastVisitDate = new Date().getTime();
                 user.visitsCount = 1;
+                user.addresses = [];
+                user.addresses.push(address);
                 db.collection(collectionName, function (err, collection) {
                         collection.insert(user, {safe: true}, function (err, result) {
                                 if (err) {
@@ -53,7 +58,7 @@ exports.putVisitorsInfo = function (trackId) {
     });
 };
 
-exports.getUnauthorizedUsers = function (req, res) {
+exports.getUnauthorizedVisitors = function (req, res) {
     db.collection(collectionName, function (err, collection) {
         collection.find().sort("visitsCount", -1,function () {
         }).skip(parseInt(req.query.startFrom)).limit(parseInt(req.query.number)).toArray(function (err, users) {
