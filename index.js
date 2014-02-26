@@ -23,10 +23,9 @@ app.configure(function () {
             trackId = uuid.v1();
             res.cookie('track_id', trackId);
         }
-//        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-//        var geo = geotools.lookup(ip);
-//        console.log(geo);
-        visitors.putVisitorsInfo(trackId, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
+        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        var geo = geotools.lookup(ip);
+        visitors.putVisitorsInfo(trackId, ip, geo !== null ? geo.country : "Не удалось определить страну", geo !== null ? geo.region : -1);
         next();
     });
 });
