@@ -27,7 +27,7 @@ exports.putVisitorsInfo = function (trackId, ip, country, regionCode) {
                         user.lastVisitDate = currentDate;
                         user.visitsCount += 1;
                         if (user.addresses.indexOf(ip) === -1) {
-                            user.addresses.push(address);
+                            user.addresses.push(ip);
                             var region = {};
                             region.country = country;
                             region.city = regionByCode.city;
