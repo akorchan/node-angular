@@ -5,7 +5,8 @@ var uuid = require('node-uuid');
 var item = require('./server/item');
 var dbox = require('./server/dbox');
 var auth = require('./server/auth');
-var user = require('./server/user');
+var visitors = require('./server/visitors');
+var geotools = require('geotools');
 
 var app = express();
 app.configure(function () {
@@ -22,7 +23,10 @@ app.configure(function () {
             trackId = uuid.v1();
             res.cookie('track_id', trackId);
         }
-        user.putVisitorsInfo(trackId);
+//        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//        var geo = geotools.lookup(ip);
+//        console.log(geo);
+        visitors.putVisitorsInfo(trackId, req.headers['x-forwarded-for'] || req.connection.remoteAddress);
         next();
     });
 });
@@ -38,7 +42,7 @@ app.get('/items/:id', item.findItemById);
 app.post('/items', auth.checkAuth, item.addOrUpdateItem);
 app.delete('/items/:id', auth.checkAuth, item.deleteItem);
 app.get('/images/:path', dbox.getFile);
-app.get('/users', user.getUnauthorizedUsers);
+app.get('/visitors', auth.checkAuth, visitors.getUnauthorizedVisitors);
 
 var port = process.env.PORT || 5000;
 http.createServer(app).listen(port);

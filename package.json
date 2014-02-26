@@ -9,6 +9,8 @@
         "express": "3.3.5",
         "mongodb": "*",
         "dbox": "0.4.x",
-        "node-uuid": "1.4.1"
+        "node-uuid": "1.4.1",
+        "geotools": "*",
+        "csv": "0.3.7"
     }
 }

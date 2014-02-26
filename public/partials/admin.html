@@ -1,4 +1,7 @@
-<button type="button" class="btn btn-success admin-button pull-right" ng-click="open()">Добавить</button>
+<button type="button" class="btn btn-success admin-button pull-right" ng-click="addNewItem()">Добавить</button>
+<button type="button" class="btn btn-info pull-right" style="margin-right: 15px" ng-click="openVisitorsStatistics()">
+    Статистика посещений
+</button>
 <div ng-show="selected">Selection from a modal: {{ selected }}</div>
 
 <div>
@@ -24,7 +27,8 @@
             <td style="vertical-align: middle;">{{ item.price }} грн.</td>
             <td style="vertical-align: middle;">
                 <!--<a href="#/store/{{ item._id }}">-->
-                <button type="button" class="btn btn-warning admin-button" ng-click="open('{{ item._id }}')">Изменить
+                <button type="button" class="btn btn-warning admin-button" ng-click="addNewItem('{{ item._id }}')">
+                    Изменить
                 </button>
                 <!--</a>-->
                 <button type="button" class="btn btn-danger admin-button" ng-click="deleteItem('{{ item._id }}')">
