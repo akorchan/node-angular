@@ -1,32 +1,12 @@
 'use strict';
 
-var mongo = require('mongodb');
-var fs = require('fs');
-var path = require('path');
-var dbox = require('./dbox');
 var uuid = require('node-uuid');
+var path = require('path');
+var db = require('./db');
+var dbox = require('./dbox');
+var BSON = require('mongodb').BSONPure;
 
-var Server = mongo.Server;
-var Db = mongo.Db;
-var BSON = mongo.BSONPure;
-
-var databaseName = 'heroku_app18084336';
 var collectionName = 'items';
-
-var server = new Server('ds043368.mongolab.com', 43368, {auto_reconnect: true});
-var db = new Db(databaseName, server);
-
-db.open(function (err, db) {
-    //authentication process
-    db.authenticate('buona', 'buona', function (err, result) {
-        if (!result) {
-            db.close();
-        }
-    });
-    if (!err) {
-        console.log("Connected to '" + databaseName + "' database");
-    }
-});
 
 function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
