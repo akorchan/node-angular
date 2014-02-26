@@ -18,8 +18,6 @@ app.configure(function () {
     app.use(express.favicon(__dirname + '/public/images/logo.png'));
     app.use('/public', express.static(__dirname + '/public'));
     app.use(function (req, res, next) {
-//        console.log(req.domain);
-//        console.log(req);
         if (req.headers.host === "myitaly.com.ua") {
             var trackId = req.cookies['track_id'];
             if (typeof trackId === 'undefined') {
