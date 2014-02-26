@@ -18,14 +18,16 @@ app.configure(function () {
     app.use(express.favicon(__dirname + '/public/images/logo.png'));
     app.use('/public', express.static(__dirname + '/public'));
     app.use(function (req, res, next) {
-        var trackId = req.cookies['track_id'];
-        if (typeof trackId === 'undefined') {
-            trackId = uuid.v1();
-            res.cookie('track_id', trackId);
+        if (req.domain === "myitaly.com.ua") {
+            var trackId = req.cookies['track_id'];
+            if (typeof trackId === 'undefined') {
+                trackId = uuid.v1();
+                res.cookie('track_id', trackId);
+            }
+            var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+            var geo = geotools.lookup(ip);
+            visitors.putVisitorsInfo(trackId, ip, geo !== null ? geo.country : "Не удалось определить страну", geo !== null ? geo.region : -1);
         }
-        var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        var geo = geotools.lookup(ip);
-        visitors.putVisitorsInfo(trackId, ip, geo !== null ? geo.country : "Не удалось определить страну", geo !== null ? geo.region : -1);
         next();
     });
 });
