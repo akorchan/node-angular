@@ -38,6 +38,7 @@ app.get('/items/:id', item.findItemById);
 app.post('/items', auth.checkAuth, item.addOrUpdateItem);
 app.delete('/items/:id', auth.checkAuth, item.deleteItem);
 app.get('/images/:path', dbox.getFile);
+app.get('/users', user.getUnauthorizedUsers);
 
 var port = process.env.PORT || 5000;
 http.createServer(app).listen(port);

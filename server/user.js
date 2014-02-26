@@ -52,3 +52,12 @@ exports.putVisitorsInfo = function (trackId) {
         });
     });
 };
+
+exports.getUnauthorizedUsers = function (req, res) {
+    db.collection(collectionName, function (err, collection) {
+        collection.find().sort("visitsCount", -1,function () {
+        }).skip(parseInt(req.query.startFrom)).limit(parseInt(req.query.number)).toArray(function (err, users) {
+                res.send(users);
+            });
+    });
+};
