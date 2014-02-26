@@ -11,7 +11,7 @@ angular.module('store.controllers')
             });
 
             // for add item modal
-            $scope.open = function (itemId) {
+            $scope.addNewItem = function (itemId) {
                 var modalInstance = $modal.open({
                     templateUrl: 'public/partials/dialogs/add-item-dialog.html',
                     controller: 'AddItemController',
@@ -21,12 +21,21 @@ angular.module('store.controllers')
                         }
                     }
                 });
-//                modalInstance.result.then(function (selectedItem) {
-//                    $scope.selected = selectedItem;
-//                }, function () {
-//                    console.log('Modal dismissed at: ' + new Date());
-//                });
             };
+
+            // for visitors statistics modal
+            $scope.openVisitorsStatistics = function () {
+                var modalInstance = $modal.open({
+                    templateUrl: 'public/partials/dialogs/visitors-statistics-dialog.html',
+                    controller: 'VisitorsController',
+                    resolve: {
+//                        selected: function () {
+//                            return itemId;
+//                        }
+                    }
+                });
+            };
+
 
             $scope.deleteItem = function (itemId) {
                 storeItems.deleteItem(itemId, function () {

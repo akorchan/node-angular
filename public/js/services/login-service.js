@@ -5,13 +5,12 @@ angular.module('store.services').service('LoginService', function ($http) {
 
     var isAuthenticated;
 
-    var isLoggedIn = function() {
+    var isLoggedIn = function () {
         return isAuthenticated;
     };
 
     var login = function (username, password, callback) {
-        console.log("login " + username + "/" + password);
-        $http({method: "POST", data: JSON.stringify({user:username, pass:password}), url: "/user/login"}).
+        $http({method: "POST", data: JSON.stringify({user: username, pass: password}), url: "/user/login"}).
             success(function (data) {
                 isAuthenticated = (data == "login");
                 callback(data);
