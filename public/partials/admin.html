@@ -13,6 +13,7 @@
         <thead>
         <tr>
             <th></th>
+            <th></th>
             <th>Название</th>
             <th>Цена</th>
             <th></th>
@@ -24,7 +25,7 @@
             <td><img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}" class="thumbnail"
                      style="width: 100px;"/></td>
             <td style="vertical-align: middle;">{{ item.name }}</td>
-            <td style="vertical-align: middle;">{{ item.price }} грн.</td>
+            <td style="vertical-align: middle; width: 90px">{{ item.price }} грн.</td>
             <td style="vertical-align: middle;">
                 <!--<a href="#/store/{{ item._id }}">-->
                 <button type="button" class="btn btn-warning admin-button" ng-click="addNewItem('{{ item._id }}')">
