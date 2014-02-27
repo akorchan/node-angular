@@ -28,11 +28,19 @@ exports.putVisitorsInfo = function (trackId, ip, country, regionCode) {
                         user.visitsCount += 1;
                         if (user.addresses.indexOf(ip) === -1) {
                             user.addresses.push(ip);
-                            var region = {};
-                            region.country = country;
-                            region.city = regionByCode.city;
-                            region.district = regionByCode.district;
-                            user.regions.push(region);
+                            var isNeedToBeAdded = true;
+                            for (var i in user.regions) {
+                                if (user.regions[i].city === regionByCode.city) {
+                                    isNeedToBeAdded = false;
+                                }
+                            }
+                            if (isNeedToBeAdded) {
+                                var region = {};
+                                region.country = country;
+                                region.city = regionByCode.city;
+                                region.district = regionByCode.district;
+                                user.regions.push(region);
+                            }
                         }
                         collection.update({'_id': new BSON.ObjectID(encode_utf8(user._id))}, user, {safe: true}, function (err, result) {
                                 if (err) {
