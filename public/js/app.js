@@ -11,7 +11,7 @@ angular.module('store', ['store.controllers', 'store.services']).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             otherwise({redirectTo: '/main'});
-    }).run(function ($rootScope, $http, $route) {
+    }).run(function ($rootScope) {
         $rootScope.$on("$routeChangeSuccess",
             function (angularEvent, currentRoute, previousRoute) {
                 $("li[class*='pagekey']").toggleClass("active", false);
