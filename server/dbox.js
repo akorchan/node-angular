@@ -1,12 +1,8 @@
 'use strict';
 
 var fs = require('fs');
-//var dropbox = require("dbox").app({"app_key": process.env['dbox_app_key'], "app_secret": process.env['dbox_app_secret'] });
-//var client = dropbox.createClient({oauth_token_secret: process.env['dbox_oauth_token_secret'], oauth_token: process.env['dbox_oauth_token'], uid: process.env['dbox_uid']});
-
-var dropbox = require("dbox").app({"app_key": "sts4a829ak9ko4u", "app_secret": "a1hifhuhny8pn1p" });
-var client = dropbox.createClient({oauth_token_secret: "p67e8tuhfgv5ors", oauth_token: "vz0msvup7v1p5mf4", uid: "174525281"});
-
+var dropbox = require("dbox").app({"app_key": process.env['dbox_app_key'], "app_secret": process.env['dbox_app_secret'] });
+var client = dropbox.createClient({oauth_token_secret: process.env['dbox_oauth_token_secret'], oauth_token: process.env['dbox_oauth_token'], uid: process.env['dbox_uid']});
 
 exports.addFile = function (file, requiredName, callback) {
     if (file) {
