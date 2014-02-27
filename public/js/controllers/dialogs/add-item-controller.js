@@ -40,10 +40,6 @@ angular.module('store.controllers')
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
         }
-//        $scope.selectedItem = selectedItem;
-//        $scope.selected = {
-//            item: null
-//        };
 
         $scope.ok = function () {
             $scope.newItem.type = $scope.comboboxObject.currentItem.id; //should be removed
