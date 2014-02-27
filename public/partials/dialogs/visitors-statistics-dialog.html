@@ -4,7 +4,40 @@
             <h3>Статистика посещений</h3>
         </div>
         <div class="modal-body">
-            bla bla bla
+            <div class="panel panel-default">
+                <!-- Table -->
+                <table class="table">
+                    <tr>
+                        <td>Посещений</td>
+                        <td>Последняя сессия</td>
+                        <td>Город</td>
+                    </tr>
+                    <tr ng-repeat="visitor in visitors">
+                        <td>
+                            <span class="badge">{{ visitor.visitsCount }}</span>
+                        </td>
+                        <td>
+                            {{visitor.lastVisitDate | date:'dd.MM.yyyy HH:mm'}}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-default btn-xs dropdown-toggle" type="button"
+                                        data-toggle="dropdown">
+                                    {{ visitor.regions[0].city }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="region in visitor.regions">{{ region.city }} (<span
+                                            ng-if="region.district !== ''">{{ region.district }}, </span>{{
+                                        region.country }})
+                                        <p class="divider"></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
         </div>
         <div class="modal-footer">
             <button class="btn btn-warning admin-button" ng-click="cancel()">Закрыть</button>
