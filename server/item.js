@@ -14,8 +14,12 @@ function encode_utf8(s) {
 
 exports.getAllItemsByType = function (req, res) {
     var condition = {};
-    if (req.query.type !== "") {
-        condition = {type: req.query.type};
+    var requestItemType = req.query.type;
+    if (requestItemType !== "") {
+        if (requestItemType !== "-1")
+            condition = {type: req.query.type};
+        else
+            condition = {isSale: "1"};
     }
     db.collection(collectionName, function (err, collection) {
         collection.find(condition).sort("date", -1,function () {

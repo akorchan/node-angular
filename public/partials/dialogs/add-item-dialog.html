@@ -47,6 +47,13 @@
 
                 <p class="help-block" ng-hide="file.name">Предпочтительный размер изображения: 20-50 КБ</p>
             </div>
+            <div>
+                <br/>
+                <label style="color: red">
+                    <input type="checkbox" ng-model="newItem.isSale" ng-true-value="1" ng-false-value="0">
+                    Акционный товар
+                </label>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary admin-button" ng-click="ok()">Ok</button>
