@@ -37,6 +37,7 @@ angular.module('store.controllers')
                 $scope.newItem.description = data.description;
                 $scope.newItem.price = data.price;
                 $scope.newItem.images = data.images;
+                $scope.newItem.isSale = data.isSale;
                 $scope.comboboxObject.currentItem = $scope.listOfTypes[data.type - 1];
             });
         }
