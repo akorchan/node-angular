@@ -10,6 +10,7 @@ angular.module('store', ['store.controllers', 'store.services']).
             when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
+            when('/shopping-cart', {templateUrl: 'public/partials/shopping-cart.html', controller: 'ShoppingCartController', pageKey: 'SHOPCART'}).
             otherwise({redirectTo: '/main'});
     }).run(function ($rootScope) {
         $rootScope.$on("$routeChangeSuccess",
