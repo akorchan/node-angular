@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="/public/css/vendor/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <title>My Italy - лучшие продукты из Италии</title>
 </head>
 <body ng-app="store">
@@ -65,6 +66,8 @@
                                                                             class="btn">Администрирование</a></li>
                 </ul>
                 <a class="pull-right navbar-link" ng-click="loginFunction()">{{login.title}}</a>
+                <a class="pull-right navbar-link" ng-click="loginFunction()" style="padding-right: 40px">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>Корзина</a>
             </div>
         </div>
     </div>
