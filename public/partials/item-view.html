@@ -3,7 +3,7 @@
 
     <div ng-show="item.images.length > 1">
         <div carousel interval="3000" class="pull-left non-selectable"
-             style="width:450px; height: 350px; background-color: #ffffff; margin-bottom: 30px;">
+             style="width:450px; height: 350px; background-color: #ffffff; margin-bottom: 30px; padding-right: 25px">
             <div slide ng-repeat="slide in slides" active="slide.active">
                 <img ng-src="{{slide.image}}" style="margin: auto; max-height: 350px; max-width: 350px;">
 
@@ -17,12 +17,18 @@
         <div>
             {{ item.description }}
         </div>
+        <div style="font-weight: bold;">
+            Цена: {{ item.price }} грн.
+        </div>
     </div>
 
     <div ng-show="item.images.length == 1">
-        <div class="pull-left">
+        <div class="pull-left" style="padding-right: 25px">
             <img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}"
                  class="thumbnail img-responsive item-view-image">
+            <div style="font-weight: bold;">
+                Цена: {{ item.price }} грн.
+            </div>
         </div>
         <div>
             {{ item.description }}
@@ -33,5 +39,9 @@
         <div>
             {{ item.description }}
         </div>
+        <div style="font-weight: bold;">
+            Цена: {{ item.price }} грн.
+        </div>
     </div>
+
 </div>

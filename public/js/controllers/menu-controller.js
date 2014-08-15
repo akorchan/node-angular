@@ -2,7 +2,11 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('MenuController', function ($scope, $modal, $rootScope, $location, LoginService) {
+    .controller('MenuController', function ($scope, $modal, $rootScope, $location, LoginService, shoppingCart) {
+
+        $scope.$watch(shoppingCart.getNumberOfItems, function () {
+            $scope.numberInCart = shoppingCart.getNumberOfItems();
+        });
 
         $scope.login = {};
         $scope.$watch(LoginService.isLoggedIn, function () {
@@ -25,7 +29,7 @@ angular.module('store.controllers')
         };
 
         var logoutForm = function () {
-            LoginService.logout(function(data) {
+            LoginService.logout(function (data) {
                 if (data === "logout") {
                     $location.path('/');
                 }

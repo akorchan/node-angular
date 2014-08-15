@@ -65,6 +65,8 @@
                                                                             class="btn">Администрирование</a></li>
                 </ul>
                 <a class="pull-right navbar-link" ng-click="loginFunction()">{{login.title}}</a>
+                <a class="pull-right navbar-link pagekey_SHOPCART" style="padding-right: 40px" href="#/shopping-cart" ng-animate="'highlight'">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> Корзина ({{ numberInCart }})</a>
             </div>
         </div>
     </div>
@@ -92,12 +94,14 @@
 
 <script type="text/javascript" src="/public/js/vendor/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/public/js/vendor/angular.min.js"></script>
+<script type="text/javascript" src="/public/js/vendor/angular-cookies.js"></script>
 <script type='text/javascript' src="/public/js/vendor/bootstrap.min.js"></script>
 <script type="text/javascript" src="/public/js/vendor/ui-bootstrap-tpls-0.6.0.min.js"></script>
 <script type="text/javascript" src="/public/js/app.js"></script>
 <script type="text/javascript" src="/public/js/services/items-service.js"></script>
 <script type="text/javascript" src="/public/js/services/login-service.js"></script>
 <script type="text/javascript" src="/public/js/services/visitors-service.js"></script>
+<script type="text/javascript" src="/public/js/services/shopping-cart-service.js"></script>
 <script type="text/javascript" src="/public/js/directives/file-upload-directive.js"></script>
 <script type="text/javascript" src="/public/js/controllers/store-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/admin-controller.js"></script>
@@ -107,6 +111,7 @@
 <script type="text/javascript" src="/public/js/controllers/item-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/main-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/menu-controller.js"></script>
+<script type="text/javascript" src="/public/js/controllers/shopping-cart-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/dialogs/add-item-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/dialogs/login-controller.js"></script>
 <script type="text/javascript" src="/public/js/controllers/dialogs/visitors-controller.js"></script>

@@ -10,6 +10,7 @@ angular.module('store', ['store.controllers', 'store.services']).
             when('/howto', {templateUrl: 'public/partials/howto.html', controller: 'HowToController', pageKey: 'HOWTO'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
             when('/admin', {templateUrl: 'public/partials/admin.html', controller: 'AdminController', pageKey: 'ADMIN'}).
+            when('/shopping-cart', {templateUrl: 'public/partials/shopping-cart.html', controller: 'ShoppingCartController', pageKey: 'SHOPCART'}).
             otherwise({redirectTo: '/main'});
     }).run(function ($rootScope) {
         $rootScope.$on("$routeChangeSuccess",
@@ -21,7 +22,7 @@ angular.module('store', ['store.controllers', 'store.services']).
     });
 
 /** services module initialization, allows adding services to module in multiple files */
-angular.module('store.services', [/*'ngCookies'*/]);
+angular.module('store.services', ['ngCookies']);
 
 /** controllers module initialization, allows adding controllers to module in multiple files */
 angular.module('store.controllers', ['ui.bootstrap', 'store.services', 'store.directives']);
