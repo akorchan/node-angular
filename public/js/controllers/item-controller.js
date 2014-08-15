@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('ItemController', function ($scope, $routeParams, storeItems) {
+    .controller('ItemController', function ($scope, $routeParams, storeItems, shoppingCart) {
         storeItems.findItemById($routeParams.itemId, function (data) {
             $scope.item = data;
 
@@ -19,4 +19,9 @@ angular.module('store.controllers')
             }
 
         });
+        $scope.putItemToCart = function (itemId) {
+            shoppingCart.putItemToCart(itemId, function () {
+                console.log('Item added: ' + itemId);
+            });
+        };
     });
