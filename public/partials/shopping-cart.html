@@ -18,7 +18,7 @@
             <td>{{ $index + 1}}.</td>
             <td><img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}" class="thumbnail"
                      style="width: 100px;"/></td>
-            <td style="vertical-align: middle;">{{ item.name }}</td>
+            <td style="vertical-align: middle; width: 400px;">{{ item.name }}</td>
             <td style="vertical-align: middle; width: 100px">{{ item.price }} грн.</td>
             <td style="vertical-align: middle; width: 130px">
                 <button type="button" class="btn btn-default" ng-click="decreaseCount('{{ item._id }}')">
