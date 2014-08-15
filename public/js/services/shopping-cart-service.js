@@ -25,6 +25,7 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
         if (index > -1) {
             shoppingCart.splice(index, 1);
         }
+        $cookieStore.put('shopping-cart', shoppingCart);
         callback(shoppingCart);
     };
 
