@@ -26,6 +26,7 @@
         <div class="pull-left" style="padding-right: 25px">
             <img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}"
                  class="thumbnail img-responsive item-view-image">
+
             <div style="font-weight: bold;">
                 Цена: {{ item.price }} грн.
             </div>
@@ -43,5 +44,10 @@
             Цена: {{ item.price }} грн.
         </div>
     </div>
+    <br/>
 
+    <div>
+        <button type="button" class="btn btn-success btn-lg" ng-click="putItemToCart('{{ item._id }}')">В корзину
+        </button>
+    </div>
 </div>
