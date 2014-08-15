@@ -4,13 +4,21 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
 
     var putItemToCart = function (itemId, callback) {
         var shoppingCart = getItems();
-        shoppingCart.push(itemId);
+        for (var key in shoppingCart) {
+            if (key.toString() === itemId) {
+                shoppingCart[key]++;
+                $cookieStore.put('shopping-cart', shoppingCart);
+                callback(getItems());
+                return;
+            }
+        }
+        shoppingCart[itemId] = 1;
         $cookieStore.put('shopping-cart', shoppingCart);
         callback(getItems());
     };
 
     var clearCart = function (callback) {
-        var shoppingCart = [];
+        var shoppingCart = {};
         $cookieStore.put('shopping-cart', shoppingCart);
         callback(getItems());
     };
@@ -21,21 +29,39 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
 
     var removeFromCart = function (itemId, callback) {
         var shoppingCart = getItems();
-        var index = shoppingCart.indexOf(itemId);
-        if (index > -1) {
-            shoppingCart.splice(index, 1);
-        }
+        delete shoppingCart[itemId];
+        $cookieStore.put('shopping-cart', shoppingCart);
+        callback(shoppingCart);
+    };
+
+
+    var decreaseNumberInCart = function (itemId, callback) {
+        var shoppingCart = getItems();
+        Object.keys(shoppingCart).forEach(function (key) {
+            if (key == itemId) {
+                if (shoppingCart[key] === 1) {
+                    delete shoppingCart[itemId];
+                } else {
+                    shoppingCart[key]--;
+                }
+            }
+        });
         $cookieStore.put('shopping-cart', shoppingCart);
         callback(shoppingCart);
     };
 
     var getNumberOfItems = function () {
-        return getItems().length;
+        var items = getItems();
+        var count = 0;
+        for (var key in items) {
+            count += items[key];
+        }
+        return count;
     };
 
     var getItems = function () {
         var items = $cookieStore.get('shopping-cart');
-        return typeof items === 'undefined' ? [] : items;
+        return typeof items === 'undefined' ? {} : items;
     };
 
     return {
@@ -43,7 +69,8 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
         clearCart: clearCart,
         getCart: getCart,
         removeFromCart: removeFromCart,
-        getNumberOfItems: getNumberOfItems
+        getNumberOfItems: getNumberOfItems,
+        decreaseNumberInCart: decreaseNumberInCart
     }
 
 });

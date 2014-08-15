@@ -8,7 +8,8 @@
             <th></th>
             <th></th>
             <th>Название</th>
-            <th>Цена</th>
+            <th>Цена за ед.</th>
+            <th>Количество</th>
             <th></th>
         </tr>
         </thead>
@@ -18,15 +19,24 @@
             <td><img src="http://buona-italia.herokuapp.com/images/{{ item.images[0] }}" class="thumbnail"
                      style="width: 100px;"/></td>
             <td style="vertical-align: middle;">{{ item.name }}</td>
-            <td style="vertical-align: middle; width: 90px">{{ item.price }} грн.</td>
+            <td style="vertical-align: middle; width: 100px">{{ item.price }} грн.</td>
+            <td style="vertical-align: middle; width: 130px">
+                <button type="button" class="btn btn-default" ng-click="decreaseCount('{{ item._id }}')">
+                    -
+                </button>
+                {{ item.count }} шт.
+                <button type="button" class="btn btn-default" ng-click="increaseCount('{{ item._id }}')">
+                    +
+                </button>
+            </td>
             <td style="vertical-align: middle;">
                 <!--<a href="#/store/{{ item._id }}">-->
-                <button type="button" class="btn btn-warning admin-button" ng-click="addNewItem('{{ item._id }}')">
+                <button type="button" class="btn btn-warning" ng-click="addNewItem('{{ item._id }}')">
                     Изменить
                 </button>
                 <!--</a>-->
-                <button type="button" class="btn btn-danger admin-button" ng-click="removeFromCart('{{ item._id }}')">
-                    Удалить
+                <button type="button" class="btn btn-danger" ng-click="removeFromCart('{{ item._id }}')">
+                    Выложить из корзины
                 </button>
             </td>
         </tr>
