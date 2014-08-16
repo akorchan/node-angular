@@ -5,6 +5,7 @@ angular.module('store.controllers')
     .controller('ShoppingCartController', function ($scope, $route, shoppingCart, storeItems) {
 
         $scope.itemsToBuy = [];
+
         shoppingCart.getCart(function (items) {
             Object.keys(items).forEach(function (key) {
                 storeItems.findItemById(key, function (data) {
@@ -13,6 +14,13 @@ angular.module('store.controllers')
                 })
             });
         });
+
+        $scope.clearCart = function () {
+            shoppingCart.clearCart(function (items) {
+                $scope.itemsToBuy = items;
+                $route.reload();
+            });
+        };
 
         $scope.removeFromCart = function (itemId) {
             shoppingCart.removeFromCart(itemId, function (items) {
