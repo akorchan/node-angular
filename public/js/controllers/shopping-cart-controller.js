@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('ShoppingCartController', function ($scope, $route, shoppingCart, storeItems) {
+    .controller('ShoppingCartController', function ($scope, $route, $modal, shoppingCart, storeItems) {
 
         $scope.itemsToBuy = [];
 
@@ -22,12 +22,18 @@ angular.module('store.controllers')
             });
         };
 
-        $scope.sendCart = function () {
-            shoppingCart.sendCart(function (items) {
-                $scope.itemsToBuy = items;
-                $route.reload();
+        $scope.sendCartDialog = function () {
+            var modalInstance = $modal.open({
+                templateUrl: 'public/partials/dialogs/send-cart-dialog.html',
+                controller: 'SendCartController'
+//                resolve: {
+//                    selected: function () {
+//                        return itemId;
+//                    }
+//                }
             });
         };
+
 
         $scope.removeFromCart = function (itemId) {
             shoppingCart.removeFromCart(itemId, function (items) {

@@ -23,7 +23,7 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
         callback(getItems());
     };
 
-    var sendCart = function (callback) {
+    var sendCart = function (customer, callback) {
         //todo
         callback(getItems());
     };
