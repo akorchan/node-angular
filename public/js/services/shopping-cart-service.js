@@ -23,6 +23,11 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
         callback(getItems());
     };
 
+    var sendCart = function (callback) {
+        //todo
+        callback(getItems());
+    };
+
     var getCart = function (callback) {
         callback(getItems());
     };
@@ -67,6 +72,7 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
     return {
         putItemToCart: putItemToCart,
         clearCart: clearCart,
+        sendCart: sendCart,
         getCart: getCart,
         removeFromCart: removeFromCart,
         getNumberOfItems: getNumberOfItems,

@@ -22,6 +22,13 @@ angular.module('store.controllers')
             });
         };
 
+        $scope.sendCart = function () {
+            shoppingCart.sendCart(function (items) {
+                $scope.itemsToBuy = items;
+                $route.reload();
+            });
+        };
+
         $scope.removeFromCart = function (itemId) {
             shoppingCart.removeFromCart(itemId, function (items) {
                 $scope.itemsToBuy = items;
