@@ -10,6 +10,7 @@
         "mongodb": "*",
         "dbox": "0.4.x",
         "node-uuid": "1.4.1",
-        "geotools": "*"
+        "geotools": "*",
+        "nodemailer": "0.3.29"
     }
 }

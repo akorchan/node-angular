@@ -1,7 +1,17 @@
 'use strict';
 
 var db = require('./db');
+var item = require('./item');
 var BSON = require('mongodb').BSONPure;
+var nodemailer = require("nodemailer");
+
+var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "myitalyshop@gmail.com",
+        pass: "wrongpassword"
+    }
+});
 
 var collectionVisitors = 'unauthorized_users';
 var collectionRegions = 'regions';
@@ -87,6 +97,30 @@ exports.getUnauthorizedVisitors = function (req, res) {
                 res.send(users);
             });
     });
+};
+
+exports.sendOrderCart = function (req, res) {
+    var customer = req.body.customer;
+    var order = req.body.order;
+    var mailBody = "";
+    for (var key in order) {
+        item.findItemByIdInternal(key, function(err, receivedItem) {
+            mailBody += receivedItem.name;
+        })
+    }
+    console.log(mailBody);
+//    smtpTransport.sendMail({
+//        from: "MyItaly Shop <MyItalyShop@gmail.com>", // sender address
+//        to: "Your Name <gprogramador@gmail.com>", // comma separated list of receivers
+//        subject: "Hello ✔", // Subject line
+//        text: "Hello world ✔" // plaintext body
+//    }, function(error, response){
+//        if(error){
+//            console.log(error);
+//        }else{
+//            console.log("Message sent: " + response.message);
+//        }
+//    });
 };
 
 function getRegionDetails(regionCode, callback) {
