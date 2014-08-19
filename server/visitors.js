@@ -2,15 +2,21 @@
 
 var db = require('./db');
 var item = require('./item');
+var config = require("./config");
 var BSON = require('mongodb').BSONPure;
 var nodemailer = require("nodemailer");
+var async = require("async");
 
-var smtpTransport = nodemailer.createTransport("SMTP",{
-    service: "Gmail",
-    auth: {
-        user: "myitalyshop@gmail.com",
-        pass: "wrongpassword"
-    }
+var smtpTransport = null;
+
+config.getConfig(5000, function (config) {
+    smtpTransport = nodemailer.createTransport("SMTP", {
+        service: "Gmail",
+        auth: {
+            user: config.shop_mail,
+            pass: config.shop_mail_pass
+        }
+    });
 });
 
 var collectionVisitors = 'unauthorized_users';
@@ -102,25 +108,51 @@ exports.getUnauthorizedVisitors = function (req, res) {
 exports.sendOrderCart = function (req, res) {
     var customer = req.body.customer;
     var order = req.body.order;
-    var mailBody = "";
+    var mailBody = 'Закакзчик: ' + customer.name;
+    mailBody += "<br/>";
+    mailBody += 'Контактный телефон: ' + customer.phone;
+    mailBody += '<br/>';
+    mailBody += '<br/>';
+    mailBody += 'Заказ';
+    mailBody += '<table border=\'1\'>';
+
+    var orderArray = [];
     for (var key in order) {
-        item.findItemByIdInternal(key, function(err, receivedItem) {
-            mailBody += receivedItem.name;
-        })
+        orderArray.push(key);
     }
-    console.log(mailBody);
-//    smtpTransport.sendMail({
-//        from: "MyItaly Shop <MyItalyShop@gmail.com>", // sender address
-//        to: "Your Name <gprogramador@gmail.com>", // comma separated list of receivers
-//        subject: "Hello ✔", // Subject line
-//        text: "Hello world ✔" // plaintext body
-//    }, function(error, response){
-//        if(error){
-//            console.log(error);
-//        }else{
-//            console.log("Message sent: " + response.message);
-//        }
-//    });
+    async.each(orderArray,
+        function (orderItem, callback) {
+            item.findItemByIdInternal(orderItem, function (err, receivedItem) {
+                mailBody += '<tr>';
+                mailBody += '<td>';
+                mailBody += receivedItem.name;
+                mailBody += '</td>';
+                mailBody += '<td>';
+                mailBody += receivedItem.price + ' грн/шт.';
+                mailBody += '</td>';
+                mailBody += '<td>';
+                mailBody += order[orderItem] + ' шт.';
+                mailBody += '</td>';
+                mailBody += '</tr>';
+                callback();
+            });
+        },
+        function (err) {
+            mailBody += '</table>';
+            smtpTransport.sendMail({
+                from: 'Магазин MyItaly <MyItalyShop@gmail.com>',
+                to: customer.name + ' <gprogramador@gmail.com>',
+                subject: 'Заказ от ' + customer.name.toUpperCase(),
+                html: mailBody
+            }, function (error, response) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    res.send('Message sent: ' + response.message);
+                }
+            });
+        }
+    );
 };
 
 function getRegionDetails(regionCode, callback) {

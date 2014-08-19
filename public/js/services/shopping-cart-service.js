@@ -26,14 +26,10 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore,
     var sendCart = function (customer, callback) {
         $http({method: "POST", data: {customer: customer, order: getItems()}, url: "/sendcart"}).
             success(function (data) {
-//                isAuthenticated = (data == "login");
                 callback(data);
             }).error(function (data) {
                 console.log(data);
-//                isAuthenticated = false;
             });
-
-        callback(getItems());
     };
 
     var getCart = function (callback) {

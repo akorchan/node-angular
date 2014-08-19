@@ -11,6 +11,8 @@
         "dbox": "0.4.x",
         "node-uuid": "1.4.1",
         "geotools": "*",
-        "nodemailer": "0.3.29"
+        "nodemailer": "0.3.29",
+        "async": "0.9.0"
+
     }
 }

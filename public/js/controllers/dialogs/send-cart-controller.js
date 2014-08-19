@@ -12,8 +12,11 @@ angular.module('store.controllers')
 
         $scope.sendCart = function () {
             shoppingCart.sendCart($scope.customer, function (items) {
-                $scope.itemsToBuy = items;
-                $route.reload();
+                shoppingCart.clearCart(function () {
+                    $scope.itemsToBuy = {};
+                    $modalInstance.dismiss('cancel');
+                    $route.reload();
+                });
             });
         };
     });
