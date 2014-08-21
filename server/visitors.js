@@ -8,8 +8,10 @@ var nodemailer = require("nodemailer");
 var async = require("async");
 
 var smtpTransport = null;
+var glogalConfig = null;
 
 config.getConfig(5000, function (config) {
+    glogalConfig = config;
     smtpTransport = nodemailer.createTransport("SMTP", {
         service: "Gmail",
         auth: {
@@ -99,7 +101,7 @@ exports.putVisitorsInfo = function (trackId, ip, country, regionCode) {
 exports.getUnauthorizedVisitors = function (req, res) {
     db.collection(collectionVisitors, function (err, collection) {
         collection.find().sort("visitsCount", -1,function () {
-        }).skip(parseInt(req.query.startFrom)).limit(parseInt(req.query.number)).toArray(function (err, users) {
+        }).skip(parseInt(req.query.startFrom)).limit(10).toArray(function (err, users) {
                 res.send(users);
             });
     });
@@ -159,8 +161,6 @@ exports.sendOrderCart = function (req, res) {
             });
         }
     );
-
-
 };
 
 function getRegionDetails(regionCode, callback) {
