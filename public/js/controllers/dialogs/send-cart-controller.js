@@ -14,7 +14,7 @@ angular.module('store.controllers')
             shoppingCart.sendCart($scope.customer, function (items) {
                 shoppingCart.clearCart(function () {
                     $scope.itemsToBuy = {};
-                    $modalInstance.dismiss('cancel');
+                    $modalInstance.close('Заказ успешно отправлен!');
                     $route.reload();
                 });
             });

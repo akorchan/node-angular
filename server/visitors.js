@@ -106,8 +106,12 @@ exports.getUnauthorizedVisitors = function (req, res) {
 };
 
 exports.sendOrderCart = function (req, res) {
-    var customer = req.body.customer;
     var order = req.body.order;
+    var customer = req.body.customer;
+    if ((typeof customer.name === 'undefined') || (typeof customer.phone === 'undefined')) {
+        res.send('Input parameters was not specified');
+        return;
+    }
     var mailBody = 'Закакзчик: ' + customer.name;
     mailBody += "<br/>";
     mailBody += 'Контактный телефон: ' + customer.phone;
@@ -122,26 +126,28 @@ exports.sendOrderCart = function (req, res) {
     }
     async.each(orderArray,
         function (orderItem, callback) {
-            item.findItemByIdInternal(orderItem, function (err, receivedItem) {
-                mailBody += '<tr>';
-                mailBody += '<td>';
-                mailBody += receivedItem.name;
-                mailBody += '</td>';
-                mailBody += '<td>';
-                mailBody += receivedItem.price + ' грн/шт.';
-                mailBody += '</td>';
-                mailBody += '<td>';
-                mailBody += order[orderItem] + ' шт.';
-                mailBody += '</td>';
-                mailBody += '</tr>';
-                callback();
-            });
+            if (orderItem !== '') {
+                item.findItemByIdInternal(orderItem, function (err, receivedItem) {
+                    mailBody += '<tr>';
+                    mailBody += '<td>';
+                    mailBody += receivedItem.name;
+                    mailBody += '</td>';
+                    mailBody += '<td>';
+                    mailBody += receivedItem.price + ' грн/шт.';
+                    mailBody += '</td>';
+                    mailBody += '<td>';
+                    mailBody += order[orderItem] + ' шт.';
+                    mailBody += '</td>';
+                    mailBody += '</tr>';
+                    callback();
+                });
+            }
         },
         function (err) {
             mailBody += '</table>';
             smtpTransport.sendMail({
                 from: 'Магазин MyItaly <MyItalyShop@gmail.com>',
-                to: customer.name + ' <gprogramador@gmail.com>',
+                to: 'Магазин MyItaly <MyItalyShop@gmail.com>',
                 subject: 'Заказ от ' + customer.name.toUpperCase(),
                 html: mailBody
             }, function (error, response) {
@@ -153,6 +159,8 @@ exports.sendOrderCart = function (req, res) {
             });
         }
     );
+
+
 };
 
 function getRegionDetails(regionCode, callback) {

@@ -12,9 +12,7 @@ angular.module('store.controllers')
         });
 
         $scope.putItemToCart = function (itemId) {
-            shoppingCart.putItemToCart(itemId, function () {
-                console.log('Item added: ' + itemId);
-            });
+            shoppingCart.putItemToCart(itemId, function () {});
         };
 
 
