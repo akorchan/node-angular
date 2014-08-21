@@ -16,6 +16,7 @@ angular.module('store.controllers')
                     $scope.itemsToBuy = {};
                     $modalInstance.close('Заказ успешно отправлен!');
                     $route.reload();
+                    alert('Заказ успешно отправлен!');
                 });
             });
         };
