@@ -44,6 +44,7 @@ app.post('/items', auth.checkAuth, item.addOrUpdateItem);
 app.delete('/items/:id', auth.checkAuth, item.deleteItem);
 app.get('/images/:path', dbox.getFile);
 app.get('/visitors', auth.checkAuth, visitors.getUnauthorizedVisitors);
+app.post('/sendcart', visitors.sendOrderCart);
 
 var port = process.env.PORT || 5000;
 http.createServer(app).listen(port);

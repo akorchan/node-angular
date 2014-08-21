@@ -32,10 +32,14 @@ exports.getAllItemsByType = function (req, res) {
 exports.findItemById = function (req, res) {
     var id = req.params.id;
     console.log('Retrieving item: ' + id);
+    module.exports.findItemByIdInternal(req.params.id, function (err, item) {
+        res.send(item);
+    });
+};
+
+exports.findItemByIdInternal = function (id, callback) {
     db.collection(collectionName, function (err, collection) {
-        collection.findOne({'_id': new BSON.ObjectID(id)}, function (err, item) {
-            res.send(item);
-        });
+        collection.findOne({'_id': new BSON.ObjectID(id)}, callback);
     });
 };
 

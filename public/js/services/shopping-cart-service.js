@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('store.services').service('shoppingCart', function ($cookieStore) {
+angular.module('store.services').service('shoppingCart', function ($cookieStore, $http) {
 
     var putItemToCart = function (itemId, callback) {
         var shoppingCart = getItems();
@@ -21,6 +21,15 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
         var shoppingCart = {};
         $cookieStore.put('shopping-cart', shoppingCart);
         callback(getItems());
+    };
+
+    var sendCart = function (customer, callback) {
+        $http({method: "POST", data: {customer: customer, order: getItems()}, url: "/sendcart"}).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
     };
 
     var getCart = function (callback) {
@@ -67,6 +76,7 @@ angular.module('store.services').service('shoppingCart', function ($cookieStore)
     return {
         putItemToCart: putItemToCart,
         clearCart: clearCart,
+        sendCart: sendCart,
         getCart: getCart,
         removeFromCart: removeFromCart,
         getNumberOfItems: getNumberOfItems,
