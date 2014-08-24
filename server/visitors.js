@@ -148,8 +148,8 @@ exports.sendOrderCart = function (req, res) {
         function (err) {
             mailBody += '</table>';
             smtpTransport.sendMail({
-                from: 'Магазин MyItaly <MyItalyShop@gmail.com>',
-                to: 'Магазин MyItaly <MyItalyShop@gmail.com>',
+                from: 'Магазин MyItaly <' + glogalConfig.shop_mail + '>',
+                to: 'Магазин MyItaly <' + glogalConfig.shop_mail + '>',
                 subject: 'Заказ от ' + customer.name.toUpperCase(),
                 html: mailBody
             }, function (error, response) {
