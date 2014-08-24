@@ -10,6 +10,18 @@ angular.module('store.controllers')
                 $scope.items = data;
             });
 
+            $scope.managePasswords = function () {
+//                var modalInstance = $modal.open({
+//                    templateUrl: 'public/partials/dialogs/add-item-dialog.html',
+//                    controller: 'AddItemController',
+//                    resolve: {
+//                        selected: function () {
+//                            return itemId;
+//                        }
+//                    }
+//                });
+            };
+
             // for add item modal
             $scope.addNewItem = function (itemId) {
                 var modalInstance = $modal.open({

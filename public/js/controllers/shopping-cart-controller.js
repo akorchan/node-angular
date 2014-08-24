@@ -5,6 +5,7 @@ angular.module('store.controllers')
     .controller('ShoppingCartController', function ($scope, $route, $modal, shoppingCart, storeItems) {
 
         $scope.itemsToBuy = [];
+        $scope.title = 'Корзина покупок';
 
         shoppingCart.getCart(function (items) {
             Object.keys(items).forEach(function (key) {
@@ -26,14 +27,8 @@ angular.module('store.controllers')
             var modalInstance = $modal.open({
                 templateUrl: 'public/partials/dialogs/send-cart-dialog.html',
                 controller: 'SendCartController'
-//                resolve: {
-//                    selected: function () {
-//                        return itemId;
-//                    }
-//                }
             });
         };
-
 
         $scope.removeFromCart = function (itemId) {
             shoppingCart.removeFromCart(itemId, function (items) {
