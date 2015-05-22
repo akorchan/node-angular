@@ -2,7 +2,7 @@
 
 /** Controllers */
 angular.module('store.controllers')
-    .controller('AdminController', function ($scope, $modal, $route, LoginService, storeItems) {
+    .controller('AdminController', function ($scope, $modal, $route, LoginService, storeItems, ConfigService) {
 
         if (LoginService.isLoggedIn()) {
 
@@ -54,8 +54,19 @@ angular.module('store.controllers')
                     $route.reload();
                     alert("Удаление прошло успешно.")
                 });
-            }
+            };
 
+            ConfigService.getCurrencyRate(function (rate) {
+                $scope.currencyRate = rate;
+            });
+
+            $scope.setNewRate = function () {
+                ConfigService.setNewRate($scope.currencyRate, function (rate) {
+                    alert("Курс был изменен (" + $scope.currencyRate + ")");
+                    $scope.currencyRate = rate;
+                    $route.reload();
+                });
+            };
         }
 
     });

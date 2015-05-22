@@ -1,12 +1,4 @@
-<button type="button" class="btn btn-success admin-button pull-right" ng-click="addNewItem()">Добавить</button>
-<button type="button" class="btn btn-info admin-button pull-right" style="margin-right: 15px"
-        ng-click="managePasswords()">
-    Пароли
-</button>
-<button type="button" class="btn btn-info pull-right" style="margin-right: 15px;" ng-click="openVisitorsStatistics()">
-    Статистика
-</button>
-<label class="pull-right" style="padding-right: 40px; padding-top: 7px">
+<label class="pull-right" style="padding-top: 7px">
     Поиск по товарам:
     <input ng-model="searchText">
 </label>
@@ -16,7 +8,31 @@
 <div>
     <h2>Консоль администрирования</h2>
 </div>
-<div class="panel panel-default">
+
+<br/>
+<div style="margin-bottom: 10px">
+    <button type="button" class="btn btn-success admin-button pull-right" ng-click="addNewItem()">Добавить</button>
+
+    <button type="button" class="btn btn-info admin-button" style="margin-right: 15px;"
+            ng-click="openVisitorsStatistics()">
+        Статистика
+    </button>
+
+    <button type="button" class="btn btn-info admin-button" style="margin-right: 15px"
+            ng-click="managePasswords()">
+        Пароли
+    </button>
+
+    <label>
+        Курс:
+        <input ng-model="currencyRate" style="40px;">
+    </label>
+    <button type="button" class="btn btn-info"
+            ng-click="setNewRate()">
+        Изменить курс
+    </button>
+</div>
+<div style="padding-top: 10px;" class="panel panel-default">
     <!--<div class="panel-heading"><h4>Ассортимент товара</h4></div>-->
     <table class="table table-striped">
         <thead>
