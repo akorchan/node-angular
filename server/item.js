@@ -5,37 +5,99 @@ var path = require('path');
 var db = require('./db');
 var dbox = require('./dbox');
 var BSON = require('mongodb').BSONPure;
+var config = require("./config");
 
 var collectionName = 'items';
+
+var coef = 1;
 
 function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
 }
 
 exports.getAllItemsByType = function (req, res) {
-    var condition = {};
-    var requestItemType = req.query.type;
-    if (requestItemType !== "") {
-        if (requestItemType !== "-1")
-            condition = {type: req.query.type};
-        else
-            condition = {isSale: "1"};
-    }
-    db.collection(collectionName, function (err, collection) {
-        collection.find(condition).sort("date", -1,function () {
-        }).limit(parseInt(req.query.number)).toArray(function (err, items) {
-                res.send(items);
-            });
+    config.getConfig(1000, function (config) {
+        if (typeof config.coef !== 'undefined') {
+            coef = config.coef;
+        }
+        var condition = {};
+        var requestItemType = req.query.type;
+        if (requestItemType !== "") {
+            if (requestItemType !== "-1")
+                condition = {type: req.query.type};
+            else
+                condition = {isSale: "1"};
+        }
+
+        var currency = req.query.currency;
+
+        db.collection(collectionName, function (err, collection) {
+            collection.find(condition).sort("date", -1,function () {
+            }).limit(parseInt(req.query.number)).toArray(function (err, items) {
+                    if (currency === "") {
+                        res.send(updatePrice(items));
+                    } else {
+                        res.send(updatePriceBasedOnCoef(items));
+                    }
+                });
+        });
     });
+
 };
 
 exports.findItemById = function (req, res) {
-    var id = req.params.id;
-    console.log('Retrieving item: ' + id);
-    module.exports.findItemByIdInternal(req.params.id, function (err, item) {
-        res.send(item);
+    config.getConfig(1000, function (config) {
+        if (typeof config.coef !== 'undefined') {
+            coef = config.coef;
+        }
+        var id = req.params.id;
+        console.log('Retrieving item: ' + id);
+        var currency = req.query.currency;
+        module.exports.findItemByIdInternal(req.params.id, function (err, item) {
+            if (currency === "usd") {
+                res.send(updatePriceForSingleItem(item));
+            } else {
+                res.send(updatePriceForSingleItemCoef(item));
+            }
+        });
     });
+
 };
+
+function updatePriceBasedOnCoef(items) {
+    for (var index = 0; index < items.length; ++index) {
+        updatePriceForSingleItemCoef(items[index]);
+    }
+    return items;
+}
+
+function updatePriceForSingleItemCoef(item) {
+    if (typeof item.price !== 'undefined') {
+        item.price = Math.round(item.price.replace(/[^\d.]/g, '') * coef) + ".00";
+    }
+    else {
+        item.price = 0.00;
+    }
+    return item;
+}
+
+
+function updatePrice(items) {
+    for (var index = 0; index < items.length; ++index) {
+        updatePriceForSingleItem(items[index]);
+    }
+    return items;
+}
+
+function updatePriceForSingleItem(item) {
+    if (typeof item.price !== 'undefined') {
+        item.price = Math.round(item.price.replace(/[^\d.]/g, '') * 1) + ".00";
+    }
+    else {
+        item.price = 0.00;
+    }
+    return item;
+}
 
 exports.findItemByIdInternal = function (id, callback) {
     db.collection(collectionName, function (err, collection) {

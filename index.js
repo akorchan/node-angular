@@ -5,6 +5,7 @@ var uuid = require('node-uuid');
 var item = require('./server/item');
 var dbox = require('./server/dbox');
 var auth = require('./server/auth');
+var config = require('./server/config');
 var visitors = require('./server/visitors');
 var geotools = require('geotools');
 
@@ -45,6 +46,8 @@ app.delete('/items/:id', auth.checkAuth, item.deleteItem);
 app.get('/images/:path', dbox.getFile);
 app.get('/visitors', auth.checkAuth, visitors.getUnauthorizedVisitors);
 app.post('/sendcart', visitors.sendOrderCart);
+app.get('/config/rate', config.getCurrencyRate);
+app.post('/config/rate', config.setCurrencyRate);
 
 var port = process.env.PORT || 5000;
 http.createServer(app).listen(port);

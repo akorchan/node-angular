@@ -30,7 +30,7 @@ angular.module('store.controllers')
         $scope.isEdit = typeof selected !== "undefined";
 
         if (selected) {
-            storeItems.findItemById(selected, function (data) {
+            storeItems.findItemByIdUsd(selected, function (data) {
                 $scope.selectedItem = data;
                 $scope.newItem._id = data._id;
                 $scope.newItem.name = data.name;

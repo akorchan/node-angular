@@ -18,7 +18,7 @@ angular.module('store.services').service('storeItems', function ($http) {
      * @param callback
      */
     var getLimitedNumberItemsByType = function (itemType, number, callback) {
-        $http({method: "GET", data: {}, url: "/items?type=" + itemType + "&number=" + number}).
+        $http({method: "GET", data: {}, url: "/items?type=" + itemType + "&number=" + number + "&currency=" + "uah"}).
             success(function (data) {
                 callback(data);
             }).error(function (data) {
@@ -39,6 +39,19 @@ angular.module('store.services').service('storeItems', function ($http) {
             });
     };
 
+
+    /**
+     * Find item by id.
+     * @param callback
+     */
+    var findItemByIdUsd = function (itemId, callback) {
+        $http({method: "GET", data: {}, url: "/items/" + itemId + "?currency=usd"}).
+            success(function (data) {
+                callback(data);
+            }).error(function (data) {
+                console.log(data);
+            });
+    };
 
     /**
      * Add or update new item.
@@ -109,6 +122,7 @@ angular.module('store.services').service('storeItems', function ($http) {
         getAllItemsByType: getAllItemsByType,
         getLimitedNumberItemsByType: getLimitedNumberItemsByType,
         findItemById: findItemById,
+        findItemByIdUsd: findItemByIdUsd,
         addOrUpdateItem: addOrUpdateItem,
         updateItem: updateItem,
         deleteItem: deleteItem
