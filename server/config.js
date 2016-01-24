@@ -8,6 +8,7 @@ var configCollection = "config";
 exports.getConfig = function (timeout, callback) {
     setTimeout(function () {
         db.collection(configCollection, function (err, collection) {
+            console.log(typeof collection);
             collection.find().toArray(function (err, values) {
                 console.log("Config loaded successfully");
                 callback(values[0]);
