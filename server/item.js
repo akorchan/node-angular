@@ -73,7 +73,12 @@ function updatePriceBasedOnCoef(items) {
 
 function updatePriceForSingleItemCoef(item) {
     if (typeof item.price !== 'undefined') {
-        item.price = Math.round(item.price.replace(/[^\d.]/g, '') * coef) + ".00";
+        if (typeof item.price == 'number') {
+            item.price = Math.round(item.price * coef) + ".00";
+        } else {
+            item.price = Math.round(item.price.replace(/[^\d.]/g, '') * coef) + ".00";
+
+        }
     }
     else {
         item.price = 0.00;
