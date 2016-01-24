@@ -10,7 +10,7 @@ var async = require("async");
 var smtpTransport = null;
 var glogalConfig = null;
 
-config.getConfig(5000, function (config) {
+config.getConfig(8000, function (config) {
     glogalConfig = config;
     smtpTransport = nodemailer.createTransport("SMTP", {
         service: "Gmail",

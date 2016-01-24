@@ -16,7 +16,7 @@ function encode_utf8(s) {
 }
 
 exports.getAllItemsByType = function (req, res) {
-    config.getConfig(1000, function (config) {
+    config.getConfig(3000, function (config) {
         if (typeof config.coef !== 'undefined') {
             coef = config.coef;
         }
@@ -46,7 +46,7 @@ exports.getAllItemsByType = function (req, res) {
 };
 
 exports.findItemById = function (req, res) {
-    config.getConfig(1000, function (config) {
+    config.getConfig(3000, function (config) {
         if (typeof config.coef !== 'undefined') {
             coef = config.coef;
         }
