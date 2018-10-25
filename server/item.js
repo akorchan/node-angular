@@ -16,7 +16,7 @@ function encode_utf8(s) {
 }
 
 exports.getAllItemsByType = function (req, res) {
-    config.getConfig(1000, function (config) {
+    config.getConfig(3000, function (config) {
         if (typeof config.coef !== 'undefined') {
             coef = config.coef;
         }
@@ -46,7 +46,7 @@ exports.getAllItemsByType = function (req, res) {
 };
 
 exports.findItemById = function (req, res) {
-    config.getConfig(1000, function (config) {
+    config.getConfig(3000, function (config) {
         if (typeof config.coef !== 'undefined') {
             coef = config.coef;
         }
@@ -73,7 +73,12 @@ function updatePriceBasedOnCoef(items) {
 
 function updatePriceForSingleItemCoef(item) {
     if (typeof item.price !== 'undefined') {
-        item.price = Math.round(item.price.replace(/[^\d.]/g, '') * coef) + ".00";
+        if (typeof item.price == 'number') {
+            item.price = Math.round(item.price * coef) + ".00";
+        } else {
+            item.price = Math.round(item.price.replace(/[^\d.]/g, '') * coef) + ".00";
+
+        }
     }
     else {
         item.price = 0.00;

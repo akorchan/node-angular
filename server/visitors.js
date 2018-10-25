@@ -10,7 +10,7 @@ var async = require("async");
 var smtpTransport = null;
 var glogalConfig = null;
 
-config.getConfig(5000, function (config) {
+config.getConfig(8000, function (config) {
     glogalConfig = config;
     smtpTransport = nodemailer.createTransport("SMTP", {
         service: "Gmail",
@@ -166,14 +166,16 @@ exports.sendOrderCart = function (req, res) {
 function getRegionDetails(regionCode, callback) {
     db.collection(collectionRegions, function (err, collection) {
         collection.find({code: regionCode.toString()}).toArray(function (err, regions) {
-            if (typeof regions[0] === "undefined") {
-                regions[0] = {};
-                regions[0].city = "Неизвестный город";
-                regions[0].district = "";
-            } else if (regions[0].city === regions[0].district) {
-                regions[0].district = "";
+            if (regions) {
+                if (typeof regions[0] === "undefined") {
+                    regions[0] = {};
+                    regions[0].city = "Неизвестный город";
+                    regions[0].district = "";
+                } else if (regions[0].city === regions[0].district) {
+                    regions[0].district = "";
+                }
+                callback(regions[0]);
             }
-            callback(regions[0]);
         });
     });
 }
